@@ -516,7 +516,11 @@ System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, Syst
 	imageGraphics->DrawImage(newImage, 0, 0);
 	imageGraphics->DrawImage(_watermarkImage, xTrackBar->Value, yTrackBar->Value);
 
-	Save::ImageSaveForm^ MF2 = gcnew Save::ImageSaveForm(this, newImage);
+	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, newImage);
+
+	imageSaveForm->Location = this->Location;
+	imageSaveForm->Show();
+	this->Hide();
 
 }
 
@@ -531,6 +535,8 @@ System::Void Work::ImageWorkForm::backButton_Click(System::Object^  sender, Syst
 System::Void Work::ImageWorkForm::pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
 	Enlarged::EnlargConvertedImage^ enlargConvertedImage = gcnew Enlarged::EnlargConvertedImage(pictureBox->Image);
+
+	enlargConvertedImage->Show();
 
 }
 

@@ -9,10 +9,6 @@ Save::ImageSaveForm::ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, Bitmap^ n
 
 	pictureBox->Image = _newImage;
 
-	this->Location = _imageWorkForm->Location;
-	this->Show();
-	_imageWorkForm->Hide();
-
 }
 
 Save::ImageSaveForm::~ImageSaveForm() {

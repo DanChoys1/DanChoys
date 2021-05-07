@@ -11,7 +11,6 @@ Enlarged::EnlargConvertedImage::EnlargConvertedImage(Image^ image) {
 
 	pictureBox->Image = image;
 
-	this->Show();
 }
 
 Enlarged::EnlargConvertedImage::~EnlargConvertedImage() {
