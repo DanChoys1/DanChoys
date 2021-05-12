@@ -472,3 +472,7 @@ System::Void  Work::ImageWorkForm::ImageWorkForm_FormClosed(System::Object^ send
 	Application::Exit();
 
 }
+
+Upload::ImageUploadForm^  Work::ImageWorkForm::getImageUploadForm(void) {
+	return _imageUploadForm;
+}

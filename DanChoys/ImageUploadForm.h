@@ -11,8 +11,11 @@ namespace Upload {
 	
 	public ref class ImageUploadForm : public System::Windows::Forms::Form {
 	public:
-
 		ImageUploadForm(void);
+
+		System::String^ getPathUploadedImages(int pictureNumber);
+
+		int getNumberUploadedImages(void);
 
 	protected:
 		/// <summary>
@@ -20,6 +23,10 @@ namespace Upload {
 		/// </summary>
 
 		~ImageUploadForm();
+
+	private:
+		array<String^>^ _pathUploadedImages = nullptr;
+		const int _numberUploadedImages = 2;
 
 	private: System::Windows::Forms::Label^			 mainImagePathLabel;
 	private: System::Windows::Forms::TextBox^		 mainImagePath;

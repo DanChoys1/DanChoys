@@ -127,27 +127,42 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 
 System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	
-	this->saveFileDialog->Filter = "PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
-	this->saveFileDialog->ShowDialog();
-	this->saveImagePathTextBox->Text = this->saveFileDialog->FileName;
+	saveFileDialog->Filter = "PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
+	saveFileDialog->ShowDialog();
+	saveImagePathTextBox->Text = saveFileDialog->FileName;
 }
 
 System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	try {
-		if (System::IO::File::Exists(this->saveImagePathTextBox->Text)) {
-			Windows::Forms::DialogResult result = MessageBox::Show("Изображение с таким именем уже существует.\n"
-				"          Хотите заменить изображение?", "Сообщение", MessageBoxButtons::YesNo);
 
-			if (result == Windows::Forms::DialogResult::No) {
-				return;
-			}
+	int numberUploadedImages = _imageWorkForm->getImageUploadForm()->getNumberUploadedImages();
 
+	for (int i = 0; i < numberUploadedImages; i++) {
+		String ^_pathUploadedImages = _imageWorkForm->getImageUploadForm()->getPathUploadedImages(i);
+
+		if (_pathUploadedImages == saveImagePathTextBox->Text) {
+			MessageBox::Show("Изображение с таким именем уже используется в программе.\n"
+				             "Пожалуйста, укажите другое имя.", "Ошибка!");
+			return;
+		}
+	}
+
+	bool isFileExists = System::IO::File::Exists(saveImagePathTextBox->Text);
+
+	if (isFileExists) {
+		Windows::Forms::DialogResult result = MessageBox::Show("Изображение с таким именем уже существует.\n"
+				                                               "Хотите заменить изображение?", "Сообщение", MessageBoxButtons::YesNo);
+
+		if (result == Windows::Forms::DialogResult::No) {
+			return;
 		}
 
-		_newImage->Save(this->saveImagePathTextBox->Text);
+	}
+
+	try {
+		_newImage->Save(saveImagePathTextBox->Text);
 
 		Windows::Forms::DialogResult result = MessageBox::Show("Изображение успешно сохранено.\n"
-                                   "    Хотите закрыть приложение?", "Сообщение", MessageBoxButtons::YesNo);
+                                                               "Хотите закрыть приложение?", "Сообщение", MessageBoxButtons::YesNo);
 		
 		if (result == Windows::Forms::DialogResult::Yes) {
 			Application::Exit();

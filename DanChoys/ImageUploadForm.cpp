@@ -197,7 +197,7 @@ System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object
 	
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
-		this->mainImagePath->Text = this->openFileDialog->FileName;
+		mainImagePath->Text = openFileDialog->FileName;
 
 	}
 
@@ -229,7 +229,7 @@ System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::O
 
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
-		this->watermarkImagePath->Text = this->openFileDialog->FileName;
+		watermarkImagePath->Text = openFileDialog->FileName;
 
 	}
 
@@ -257,9 +257,21 @@ System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, 
 		return;
 	}
 
+	_pathUploadedImages = gcnew array<String^>(_numberUploadedImages);
+	_pathUploadedImages[0] = mainImagePath->Text;
+	_pathUploadedImages[1] = watermarkImagePath->Text;
+
 	Work::ImageWorkForm^ imageWorkForm = gcnew Work::ImageWorkForm(this, imageWork);
 
 	imageWorkForm->Location = this->Location;
 	imageWorkForm->Show();
 	this->Hide();
+}
+
+System::String^ Upload::ImageUploadForm::getPathUploadedImages(int pictureNumber) {
+	return _pathUploadedImages[pictureNumber];
+}
+
+int Upload::ImageUploadForm::getNumberUploadedImages(void) {
+	return _numberUploadedImages;
 }

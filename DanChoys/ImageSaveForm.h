@@ -29,15 +29,15 @@ namespace Save {
 		Work::ImageWorkForm^ _imageWorkForm;
 		Bitmap^ _newImage;
 	
-	private: System::Windows::Forms::Label^       newImageSavePathLabel;
-	private: System::Windows::Forms::TextBox^     saveImagePathTextBox;
-	private: System::Windows::Forms::Button^      searchPathSaveImageButton;
+	private: System::Windows::Forms::Label^           newImageSavePathLabel;
+	private: System::Windows::Forms::TextBox^         saveImagePathTextBox;
+	private: System::Windows::Forms::Button^          searchPathSaveImageButton;
+			   
+	private: System::Windows::Forms::Label^           pictureBoxLabel;
+	private: System::Windows::Forms::PictureBox^      pictureBox;
 
-	private: System::Windows::Forms::Label^       pictureBoxLabel;
-	private: System::Windows::Forms::PictureBox^  pictureBox;
-
-	private: System::Windows::Forms::Button^      backButton;
-	private: System::Windows::Forms::Button^      saveButton;
+	private: System::Windows::Forms::Button^          backButton;
+	private: System::Windows::Forms::Button^          saveButton;
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog;
 
 
