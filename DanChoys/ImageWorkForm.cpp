@@ -338,6 +338,7 @@ System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, S
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
 		pictureBox->Image = _imageWork->getResultingImage();
+
 		_isUsedTypeChanging = false;
 	}
 }

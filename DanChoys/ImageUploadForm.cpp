@@ -13,9 +13,7 @@ Upload::ImageUploadForm::ImageUploadForm(void) {
 Upload::ImageUploadForm::~ImageUploadForm() {
 
 	if (components) {
-
 		delete components;
-
 	}
 
 }
@@ -171,6 +169,16 @@ void Upload::ImageUploadForm::InitializeComponent(void) {
 
 }
 
+System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+
+		mainImagePath->Text = openFileDialog->FileName;
+
+	}
+
+}
+
 System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 	
 	try {
@@ -193,11 +201,11 @@ System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^ 
 
 }
 
-System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	
+System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
-		mainImagePath->Text = openFileDialog->FileName;
+		watermarkImagePath->Text = openFileDialog->FileName;
 
 	}
 
@@ -220,16 +228,6 @@ System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Obj
 	} catch (System::IO::FileNotFoundException^ exception) {
 
 		watermarkPictureBox->Image = nullptr;
-
-	}
-
-}
-
-System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
-	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-
-		watermarkImagePath->Text = openFileDialog->FileName;
 
 	}
 
