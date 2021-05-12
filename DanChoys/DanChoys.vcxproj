@@ -137,6 +137,7 @@
     <ClCompile Include="ImageSaveForm.cpp" />
     <ClCompile Include="ImageUploadForm.cpp" />
     <ClCompile Include="ImageWorkForm.cpp" />
+    <ClCompile Include="ImageWorkClass.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="ImageUploadForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ImageWorkClass.h" />
     <ClInclude Include="ImageWorkForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

@@ -1,4 +1,5 @@
 #include "ImageSaveForm.h"
+#include <iostream>
 
 using namespace System::Drawing;
 
@@ -8,17 +9,13 @@ Save::ImageSaveForm::ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, Bitmap^ n
 	InitializeComponent();
 
 	pictureBox->Image = _newImage;
-
 }
 
 Save::ImageSaveForm::~ImageSaveForm() {
 
 	if (components) {
-
 		delete components;
-
 	}
-
 }
 
 void Save::ImageSaveForm::InitializeComponent(void) {
@@ -97,6 +94,11 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 	this->saveImagePathTextBox->Size = System::Drawing::Size(536, 20);
 	this->saveImagePathTextBox->TabIndex = 16;
 	// 
+	// saveFileDialog
+	// 
+	this->saveFileDialog->CheckPathExists = false;
+	this->saveFileDialog->OverwritePrompt = false;
+	// 
 	// ImageSaveForm
 	// 
 	this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -125,24 +127,30 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 
 System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	
-	this->saveFileDialog->Filter = L"PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
+	this->saveFileDialog->Filter = "PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
 	this->saveFileDialog->ShowDialog();
 	this->saveImagePathTextBox->Text = this->saveFileDialog->FileName;
-
 }
 
 System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	try {
+		if (System::IO::File::Exists(this->saveImagePathTextBox->Text)) {
+			Windows::Forms::DialogResult result = MessageBox::Show("Изображение с таким именем уже существует.\n"
+				"          Хотите заменить изображение?", "Сообщение", MessageBoxButtons::YesNo);
+
+			if (result == Windows::Forms::DialogResult::No) {
+				return;
+			}
+
+		}
 
 		_newImage->Save(this->saveImagePathTextBox->Text);
 
-		Windows::Forms::DialogResult result = MessageBox::Show("Изображение успешно сохранено./nХотите закрыть приложение?", "Сообщение", MessageBoxButtons::YesNo);
+		Windows::Forms::DialogResult result = MessageBox::Show("Изображение успешно сохранено.\n"
+                                   "    Хотите закрыть приложение?", "Сообщение", MessageBoxButtons::YesNo);
 		
 		if (result == Windows::Forms::DialogResult::Yes) {
-
 			Application::Exit();
-
 		}
 
 	} catch (Runtime::InteropServices::ExternalException^ exception) {

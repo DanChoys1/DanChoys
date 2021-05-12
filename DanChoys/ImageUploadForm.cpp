@@ -1,5 +1,6 @@
 #include "ImageUploadForm.h"
 #include "ImageWorkForm.h"
+#include "ImageWorkClass.h"
 
 using namespace System::Drawing;
 
@@ -10,6 +11,7 @@ Upload::ImageUploadForm::ImageUploadForm(void) {
 }
 
 Upload::ImageUploadForm::~ImageUploadForm() {
+
 	if (components) {
 
 		delete components;
@@ -238,53 +240,26 @@ System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, 
 	bool isExistMainImage = mainPictureBox->Image != nullptr;
 	bool isExistWatermark = watermarkPictureBox->Image != nullptr;
 
-	if (isExistMainImage && isExistWatermark) {
-
-		Bitmap^ mainImage = gcnew Bitmap(mainImagePath->Text);
-		Bitmap^ watermark = gcnew Bitmap(watermarkImagePath->Text);
-
-		bool isMainImageBigger = (mainImage->Width >= watermark->Width) && (mainImage->Height >= watermark->Height);
-		double imageRatio = mainImage->Width / static_cast<double>(watermark->Width);
-
-		if (isMainImageBigger) {
-
-			Work::ImageWorkForm^ imageWork = gcnew Work::ImageWorkForm(this, mainImage, watermark);
-
-			imageWork->Location = this->Location;
-			imageWork->Show();
-			this->Hide();
-
-		} else if ((watermark->Height * imageRatio) <= mainImage->Height) {
-
-			int newWatermarkWidth = mainImage->Width;
-			int newWatermarkHeight = static_cast<int>(watermark->Height * imageRatio);
-			watermark = gcnew Bitmap(watermark, newWatermarkWidth, newWatermarkHeight);
-
-			Work::ImageWorkForm^ imageWork = gcnew Work::ImageWorkForm(this, mainImage, watermark);
-
-			imageWork->Location = this->Location;
-			imageWork->Show();
-			this->Hide();
-
-		} else {
-			imageRatio = mainImage->Height / static_cast<double>(watermark->Height);
-
-			int newHeight = mainImage->Height;
-			int newWidth = static_cast<int>(watermark->Width * imageRatio);
-			watermark = gcnew Bitmap(watermark, newWidth, newHeight);
-
-			Work::ImageWorkForm^ imageWork = gcnew Work::ImageWorkForm(this, mainImage, watermark);
-
-			imageWork->Location = this->Location;
-			imageWork->Show();
-			this->Hide();
-
-		}
-
-	} else {
-
-		MessageBox::Show("Один из указанных файлов не существует.", "Ошибка!");
-
+	if (!isExistMainImage) {
+		MessageBox::Show("Основное изображение не существует или не может быть открыто.", "Ошибка!");
+		return;
 	}
 
+	if (!isExistWatermark) {
+		MessageBox::Show("Водяной знак не существует или не может быть открыто.", "Ошибка!");
+		return;
+	}
+
+	ImageWork^ imageWork = gcnew ImageWork(mainPictureBox->Image, watermarkPictureBox->Image);
+
+	if (imageWork->getWatermark() == nullptr) {
+		MessageBox::Show("Основное изображение слишком мало.", "Ошибка!");
+		return;
+	}
+
+	Work::ImageWorkForm^ imageWorkForm = gcnew Work::ImageWorkForm(this, imageWork);
+
+	imageWorkForm->Location = this->Location;
+	imageWorkForm->Show();
+	this->Hide();
 }

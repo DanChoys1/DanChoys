@@ -1,53 +1,35 @@
-#include <cmath>
-
 #include "ImageWorkForm.h"
 #include "ImageSaveForm.h"
 #include "EnlargedConvertedImage.h"
 
 using namespace System::Drawing;
 
-Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, Bitmap^ mainImage, Bitmap^ watermarkImage) : _imageUploadForm(imageUploadForm) {
-	
+Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork) :
+	_imageUploadForm(imageUploadForm), _imageWork(imageWork) {
+
 	InitializeComponent();
+	_imageUploadForm = imageUploadForm;
+	_imageWork = imageWork;
 
-	_mainImage = gcnew Bitmap(mainImage);
-	_watermarkImage = gcnew Bitmap(watermarkImage);
-	_originalWatermark = gcnew Bitmap(watermarkImage);
-
-	const double imageRatio = _mainImage->Width / static_cast<double>(_watermarkImage->Width);
+	const double imageRatio = imageWork->getWidthMainImage() / static_cast<double>(imageWork->getWidthWatermark());
 	const int hundredPercent = 100;
 
-	if ((_watermarkImage->Height * imageRatio) < _mainImage->Height) {
-
-		changeSizeTrackBar->Value = (_watermarkImage->Width * hundredPercent) / _mainImage->Width;
-		changeSizeNumericUpDown->Value = static_cast<Decimal>(changeSizeTrackBar->Value);
+	if ((imageWork->getHeightWatermark() * imageRatio) < imageWork->getHeightMainImage()) {
+																	
+		sizeTrackBar->Value = (imageWork->getWidthWatermark() * hundredPercent) / imageWork->getWidthMainImage();
+		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 
 	} else {
 
-		changeSizeTrackBar->Value = (_watermarkImage->Height * hundredPercent) / _mainImage->Height;
-		changeSizeNumericUpDown->Value = static_cast<Decimal>(changeSizeTrackBar->Value);
+		sizeTrackBar->Value = (imageWork->getHeightWatermark() * hundredPercent) / imageWork->getHeightMainImage();
+		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 
 	}
 
-	xTrackBar->Maximum = _mainImage->Width - _watermarkImage->Width;
+	xTrackBar->Maximum = imageWork->getWidthMainImage();
+	yTrackBar->Maximum = imageWork->getHeightMainImage();
 
-	if (yTrackBar->Maximum == 0) {
-		xNumericUpDown->Value = hundredPercent;
-	}
-
-	yTrackBar->Maximum = _mainImage->Height - _watermarkImage->Height;
-
-	if (yTrackBar->Maximum == 0) {
-		yNumericUpDown->Value = hundredPercent;
-	}
-
-	Bitmap^ pictureBoxImage = gcnew Bitmap(_mainImage);
-	Graphics^ imageGraphics = Graphics::FromImage(pictureBoxImage);
-
-	imageGraphics->DrawImage(pictureBoxImage, 0, 0);
-	imageGraphics->DrawImage(_watermarkImage, 0, 0);
-
-	pictureBox->Image = pictureBoxImage;
+	pictureBox->Image = imageWork->getResultingImage();
 
 }
 
@@ -59,20 +41,19 @@ Work::ImageWorkForm::~ImageWorkForm() {
 
 	}
 
-
 }
 
 void Work::ImageWorkForm::InitializeComponent(void) {
-	this->changeTransparencyPercentSignLabel = (gcnew System::Windows::Forms::Label());
-	this->changeTransparencyNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
-	this->changeSizePercentSignLabel = (gcnew System::Windows::Forms::Label());
-	this->changeSizeNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
-	this->changeTransparencyTrackBar = (gcnew System::Windows::Forms::TrackBar());
-	this->changeSizeTrackBar = (gcnew System::Windows::Forms::TrackBar());
+	this->transparencyPercentSignLabel = (gcnew System::Windows::Forms::Label());
+	this->transparencyNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+	this->sizePercentSignLabel = (gcnew System::Windows::Forms::Label());
+	this->sizeNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
+	this->transparencyTrackBar = (gcnew System::Windows::Forms::TrackBar());
+	this->sizeTrackBar = (gcnew System::Windows::Forms::TrackBar());
 	this->backButton = (gcnew System::Windows::Forms::Button());
 	this->nextButton = (gcnew System::Windows::Forms::Button());
 	this->changeTransparencyHeading = (gcnew System::Windows::Forms::Label());
-	this->changePositionGroupBox = (gcnew System::Windows::Forms::GroupBox());
+	this->positionGroupBox = (gcnew System::Windows::Forms::GroupBox());
 	this->yPercentSignLabel = (gcnew System::Windows::Forms::Label());
 	this->xPercentSignLabel = (gcnew System::Windows::Forms::Label());
 	this->yNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
@@ -84,11 +65,11 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->changeSizeHeading = (gcnew System::Windows::Forms::Label());
 	this->pictureBox = (gcnew System::Windows::Forms::PictureBox());
 	this->capabilitPictureBoxLabel = (gcnew System::Windows::Forms::Label());
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeTransparencyNumericUpDown))->BeginInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeSizeNumericUpDown))->BeginInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeTransparencyTrackBar))->BeginInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeSizeTrackBar))->BeginInit();
-	this->changePositionGroupBox->SuspendLayout();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->transparencyNumericUpDown))->BeginInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->sizeNumericUpDown))->BeginInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->transparencyTrackBar))->BeginInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->sizeTrackBar))->BeginInit();
+	this->positionGroupBox->SuspendLayout();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->yNumericUpDown))->BeginInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->yTrackBar))->BeginInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->xNumericUpDown))->BeginInit();
@@ -96,67 +77,69 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox))->BeginInit();
 	this->SuspendLayout();
 	// 
-	// changeTransparencyPercentSignLabel
+	// transparencyPercentSignLabel
 	// 
-	this->changeTransparencyPercentSignLabel->AutoSize = true;
-	this->changeTransparencyPercentSignLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular,
+	this->transparencyPercentSignLabel->AutoSize = true;
+	this->transparencyPercentSignLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular,
 		System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-	this->changeTransparencyPercentSignLabel->Location = System::Drawing::Point(321, 96);
-	this->changeTransparencyPercentSignLabel->Name = L"changeTransparencyPercentSignLabel";
-	this->changeTransparencyPercentSignLabel->Size = System::Drawing::Size(20, 16);
-	this->changeTransparencyPercentSignLabel->TabIndex = 27;
-	this->changeTransparencyPercentSignLabel->Text = L"%";
+	this->transparencyPercentSignLabel->Location = System::Drawing::Point(321, 96);
+	this->transparencyPercentSignLabel->Name = L"transparencyPercentSignLabel";
+	this->transparencyPercentSignLabel->Size = System::Drawing::Size(20, 16);
+	this->transparencyPercentSignLabel->TabIndex = 27;
+	this->transparencyPercentSignLabel->Text = L"%";
 	// 
-	// changeTransparencyNumericUpDown
+	// transparencyNumericUpDown
 	// 
-	this->changeTransparencyNumericUpDown->DecimalPlaces = 1;
-	this->changeTransparencyNumericUpDown->Location = System::Drawing::Point(268, 92);
-	this->changeTransparencyNumericUpDown->Name = L"changeTransparencyNumericUpDown";
-	this->changeTransparencyNumericUpDown->Size = System::Drawing::Size(50, 20);
-	this->changeTransparencyNumericUpDown->TabIndex = 26;
-	this->changeTransparencyNumericUpDown->ThousandsSeparator = true;
-	this->changeTransparencyNumericUpDown->ValueChanged += gcnew System::EventHandler(this, &ImageWorkForm::changeTransparencyNumericUpDown_ValueChanged);
+	this->transparencyNumericUpDown->DecimalPlaces = 1;
+	this->transparencyNumericUpDown->Location = System::Drawing::Point(268, 92);
+	this->transparencyNumericUpDown->Name = L"transparencyNumericUpDown";
+	this->transparencyNumericUpDown->Size = System::Drawing::Size(50, 20);
+	this->transparencyNumericUpDown->TabIndex = 26;
+	this->transparencyNumericUpDown->ThousandsSeparator = true;
+	this->transparencyNumericUpDown->ValueChanged += gcnew System::EventHandler(this, &ImageWorkForm::transparencyNumericUpDown_ValueChanged);
 	// 
-	// changeSizePercentSignLabel
+	// sizePercentSignLabel
 	// 
-	this->changeSizePercentSignLabel->AutoSize = true;
-	this->changeSizePercentSignLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular,
+	this->sizePercentSignLabel->AutoSize = true;
+	this->sizePercentSignLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular,
 		System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-	this->changeSizePercentSignLabel->Location = System::Drawing::Point(321, 32);
-	this->changeSizePercentSignLabel->Name = L"changeSizePercentSignLabel";
-	this->changeSizePercentSignLabel->Size = System::Drawing::Size(20, 16);
-	this->changeSizePercentSignLabel->TabIndex = 25;
-	this->changeSizePercentSignLabel->Text = L"%";
+	this->sizePercentSignLabel->Location = System::Drawing::Point(321, 32);
+	this->sizePercentSignLabel->Name = L"sizePercentSignLabel";
+	this->sizePercentSignLabel->Size = System::Drawing::Size(20, 16);
+	this->sizePercentSignLabel->TabIndex = 25;
+	this->sizePercentSignLabel->Text = L"%";
 	// 
-	// changeSizeNumericUpDown
+	// sizeNumericUpDown
 	// 
-	this->changeSizeNumericUpDown->Location = System::Drawing::Point(268, 28);
-	this->changeSizeNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
-	this->changeSizeNumericUpDown->Name = L"changeSizeNumericUpDown";
-	this->changeSizeNumericUpDown->Size = System::Drawing::Size(50, 20);
-	this->changeSizeNumericUpDown->TabIndex = 24;
-	this->changeSizeNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
-	this->changeSizeNumericUpDown->ValueChanged += gcnew System::EventHandler(this, &ImageWorkForm::changeSizeNumericUpDown_ValueChanged);
+	this->sizeNumericUpDown->Location = System::Drawing::Point(268, 28);
+	this->sizeNumericUpDown->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+	this->sizeNumericUpDown->Name = L"sizeNumericUpDown";
+	this->sizeNumericUpDown->Size = System::Drawing::Size(50, 20);
+	this->sizeNumericUpDown->TabIndex = 24;
+	this->sizeNumericUpDown->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+	this->sizeNumericUpDown->ValueChanged += gcnew System::EventHandler(this, &ImageWorkForm::sizeNumericUpDown_ValueChanged);
 	// 
-	// changeTransparencyTrackBar
+	// transparencyTrackBar
 	// 
-	this->changeTransparencyTrackBar->Location = System::Drawing::Point(12, 92);
-	this->changeTransparencyTrackBar->Maximum = 255;
-	this->changeTransparencyTrackBar->Name = L"changeTransparencyTrackBar";
-	this->changeTransparencyTrackBar->Size = System::Drawing::Size(254, 45);
-	this->changeTransparencyTrackBar->TabIndex = 23;
-	this->changeTransparencyTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::changeTransparencyTrackBar_Scroll);
+	this->transparencyTrackBar->Location = System::Drawing::Point(12, 92);
+	this->transparencyTrackBar->Maximum = 0;
+	this->transparencyTrackBar->Minimum = -255;
+	this->transparencyTrackBar->Name = L"transparencyTrackBar";
+	this->transparencyTrackBar->Size = System::Drawing::Size(254, 45);
+	this->transparencyTrackBar->TabIndex = 23;
+	this->transparencyTrackBar->Value = -255;
+	this->transparencyTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::transparencyTrackBar_Scroll);
 	// 
-	// changeSizeTrackBar
+	// sizeTrackBar
 	// 
-	this->changeSizeTrackBar->Location = System::Drawing::Point(12, 28);
-	this->changeSizeTrackBar->Maximum = 100;
-	this->changeSizeTrackBar->Minimum = 1;
-	this->changeSizeTrackBar->Name = L"changeSizeTrackBar";
-	this->changeSizeTrackBar->Size = System::Drawing::Size(254, 45);
-	this->changeSizeTrackBar->TabIndex = 22;
-	this->changeSizeTrackBar->Value = 1;
-	this->changeSizeTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::changeSizeTrackBar_Scroll);
+	this->sizeTrackBar->Location = System::Drawing::Point(12, 28);
+	this->sizeTrackBar->Maximum = 100;
+	this->sizeTrackBar->Minimum = 1;
+	this->sizeTrackBar->Name = L"sizeTrackBar";
+	this->sizeTrackBar->Size = System::Drawing::Size(254, 45);
+	this->sizeTrackBar->TabIndex = 22;
+	this->sizeTrackBar->Value = 1;
+	this->sizeTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::sizeTrackBar_Scroll);
 	// 
 	// backButton
 	// 
@@ -187,22 +170,22 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->changeTransparencyHeading->TabIndex = 19;
 	this->changeTransparencyHeading->Text = L"Прозрачность водяного изображения";
 	// 
-	// changePositionGroupBox
+	// positionGroupBox
 	// 
-	this->changePositionGroupBox->Controls->Add(this->yPercentSignLabel);
-	this->changePositionGroupBox->Controls->Add(this->xPercentSignLabel);
-	this->changePositionGroupBox->Controls->Add(this->yNumericUpDown);
-	this->changePositionGroupBox->Controls->Add(this->yTrackBar);
-	this->changePositionGroupBox->Controls->Add(this->xNumericUpDown);
-	this->changePositionGroupBox->Controls->Add(this->xTrackBar);
-	this->changePositionGroupBox->Controls->Add(this->yHeading);
-	this->changePositionGroupBox->Controls->Add(this->xHeading);
-	this->changePositionGroupBox->Location = System::Drawing::Point(12, 145);
-	this->changePositionGroupBox->Name = L"changePositionGroupBox";
-	this->changePositionGroupBox->Size = System::Drawing::Size(333, 148);
-	this->changePositionGroupBox->TabIndex = 18;
-	this->changePositionGroupBox->TabStop = false;
-	this->changePositionGroupBox->Text = L"Положение водяного знака";
+	this->positionGroupBox->Controls->Add(this->yPercentSignLabel);
+	this->positionGroupBox->Controls->Add(this->xPercentSignLabel);
+	this->positionGroupBox->Controls->Add(this->yNumericUpDown);
+	this->positionGroupBox->Controls->Add(this->yTrackBar);
+	this->positionGroupBox->Controls->Add(this->xNumericUpDown);
+	this->positionGroupBox->Controls->Add(this->xTrackBar);
+	this->positionGroupBox->Controls->Add(this->yHeading);
+	this->positionGroupBox->Controls->Add(this->xHeading);
+	this->positionGroupBox->Location = System::Drawing::Point(12, 145);
+	this->positionGroupBox->Name = L"positionGroupBox";
+	this->positionGroupBox->Size = System::Drawing::Size(333, 148);
+	this->positionGroupBox->TabIndex = 18;
+	this->positionGroupBox->TabStop = false;
+	this->positionGroupBox->Text = L"Положение водяного знака";
 	// 
 	// yPercentSignLabel
 	// 
@@ -312,16 +295,16 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 	this->ClientSize = System::Drawing::Size(684, 411);
 	this->Controls->Add(this->capabilitPictureBoxLabel);
-	this->Controls->Add(this->changeTransparencyPercentSignLabel);
-	this->Controls->Add(this->changeTransparencyNumericUpDown);
-	this->Controls->Add(this->changeSizePercentSignLabel);
-	this->Controls->Add(this->changeSizeNumericUpDown);
-	this->Controls->Add(this->changeTransparencyTrackBar);
-	this->Controls->Add(this->changeSizeTrackBar);
+	this->Controls->Add(this->transparencyPercentSignLabel);
+	this->Controls->Add(this->transparencyNumericUpDown);
+	this->Controls->Add(this->sizePercentSignLabel);
+	this->Controls->Add(this->sizeNumericUpDown);
+	this->Controls->Add(this->transparencyTrackBar);
+	this->Controls->Add(this->sizeTrackBar);
 	this->Controls->Add(this->backButton);
 	this->Controls->Add(this->nextButton);
 	this->Controls->Add(this->changeTransparencyHeading);
-	this->Controls->Add(this->changePositionGroupBox);
+	this->Controls->Add(this->positionGroupBox);
 	this->Controls->Add(this->changeSizeHeading);
 	this->Controls->Add(this->pictureBox);
 	this->MaximizeBox = false;
@@ -331,192 +314,136 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->Name = L"ImageWorkForm";
 	this->StartPosition = System::Windows::Forms::FormStartPosition::Manual;
 	this->Text = L"DanChoys";
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeTransparencyNumericUpDown))->EndInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeSizeNumericUpDown))->EndInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeTransparencyTrackBar))->EndInit();
-	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->changeSizeTrackBar))->EndInit();
-	this->changePositionGroupBox->ResumeLayout(false);
-	this->changePositionGroupBox->PerformLayout();
+	this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &ImageWorkForm::ImageWorkForm_FormClosed);
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->transparencyNumericUpDown))->EndInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->sizeNumericUpDown))->EndInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->transparencyTrackBar))->EndInit();
+	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->sizeTrackBar))->EndInit();
+	this->positionGroupBox->ResumeLayout(false);
+	this->positionGroupBox->PerformLayout();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->yNumericUpDown))->EndInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->yTrackBar))->EndInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->xNumericUpDown))->EndInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->xTrackBar))->EndInit();
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox))->EndInit();
-	this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &ImageWorkForm::ImageWorkForm_FormClosed);
 	this->ResumeLayout(false);
 	this->PerformLayout();
 
 }
 
-System::Void Work::ImageWorkForm::changeSizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
+		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
-	changeSizeNumericUpDown->Value = static_cast<Decimal>(changeSizeTrackBar->Value);
-	changeSizeWatermark();
-
+		pictureBox->Image = _imageWork->getResultingImage();
+		_isUsedTypeChanging = false;
+	}
 }
 
-System::Void Work::ImageWorkForm::changeSizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		sizeTrackBar->Value = static_cast<int>(sizeNumericUpDown->Value);
+		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
-	changeSizeTrackBar->Value = static_cast<int>(changeSizeNumericUpDown->Value);
-	changeSizeWatermark();
-
+		pictureBox->Image = _imageWork->getResultingImage();
+		
+		_isUsedTypeChanging = false;
+	}
 }
 
-void Work::ImageWorkForm::changeSizeWatermark(void) {
+System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const double maxAlpha = 255.0;
+		const int hundredPercent = 100;
+		const double percentageTransparency = hundredPercent + (transparencyTrackBar->Value / maxAlpha) * hundredPercent;
 
-	double imageRatio = _mainImage->Width / static_cast<double>(_originalWatermark->Width);
+		transparencyNumericUpDown->Value = static_cast<Decimal>(percentageTransparency);
 
-	if ((_originalWatermark->Height * imageRatio) < _mainImage->Height) {
+		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
 
-		int width = static_cast<int>(_mainImage->Width * (changeSizeTrackBar->Value * 0.01));
-		int height = static_cast<int>( (_originalWatermark->Height * imageRatio) * (changeSizeTrackBar->Value * 0.01) );
-		_watermarkImage = gcnew Bitmap(_originalWatermark, width, height);
-
-	} else {
-
-		imageRatio = _mainImage->Height / static_cast<double>(_originalWatermark->Height);
-		int height = static_cast<int>(_mainImage->Height * (changeSizeTrackBar->Value * 0.01));
-		int width = static_cast<int>( (_originalWatermark->Width * imageRatio) * (changeSizeTrackBar->Value * 0.01) );
-		_watermarkImage = gcnew Bitmap(_originalWatermark, width, height);
-
+		_isUsedTypeChanging = false;
 	}
-
-	xTrackBar->Maximum = _mainImage->Width - _watermarkImage->Width;
-
-	if (xTrackBar->Maximum != 0) {
-
-		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * 100);
-
-	} else {
-
-		xNumericUpDown->Value = 100;
-
-	}
-
-	yTrackBar->Maximum = _mainImage->Height - _watermarkImage->Height;
-
-	if (yTrackBar->Maximum != 0) {
-
-		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * 100);
-
-	} else {
-
-		yNumericUpDown->Value = 100;
-
-	}
-
-	if (_alpha != 255) {
-
-		changeTransparencyWatermark();
-
-	} else {
-
-		changePositionWatermark();
-
-	}
-
 }
 
-System::Void Work::ImageWorkForm::changeTransparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const int maxAlpha = 255;
+		const int hundredPercent = 100;
 
-	const double maxAlpha = 255;
-	const int hundredPercent = 100;
+		transparencyTrackBar->Value = static_cast<int>(-maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent);
 
-	changeTransparencyNumericUpDown->Value = static_cast<Decimal>((changeTransparencyTrackBar->Value / maxAlpha) * hundredPercent);
+		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
 
-	changeTransparencyWatermark();
-
-}
-
-System::Void Work::ImageWorkForm::changeTransparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-
-	const int maxAlpha = 255;
-	const int hundredPercent = 100;
-
-	changeTransparencyTrackBar->Value = static_cast<int>(maxAlpha * static_cast<double>(changeTransparencyNumericUpDown->Value) / hundredPercent);
-
-	changeTransparencyWatermark();
-
-}
-
-void Work::ImageWorkForm::changeTransparencyWatermark(void) {
-	const int maxAlpha = 255;
-	_alpha = abs(changeTransparencyTrackBar->Value - maxAlpha);
-
-	for (int x = 0; x < _watermarkImage->Width; x++) {
-
-		for (int y = 0; y < _watermarkImage->Height; y++) {
-
-			Color watermarkPixel = _watermarkImage->GetPixel(x, y);
-			watermarkPixel = Color::FromArgb(_alpha, watermarkPixel);
-			_watermarkImage->SetPixel(x, y, watermarkPixel);
-
-		}
-
+		_isUsedTypeChanging = false;
 	}
-
-	changePositionWatermark();
 }
 
 System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
-	
-	const int hundredPercent = 100;
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const int hundredPercent = 100;
 
-	xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * hundredPercent);
+		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * hundredPercent);
 
-	changePositionWatermark();
-	
+		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
+
+		_isUsedTypeChanging = false;
+		}
 }
 
 System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const int hundredPercent = 100;
 
-	const int hundredPercent = 100;
+		xTrackBar->Value = static_cast<int>(xTrackBar->Maximum * static_cast<double>(xNumericUpDown->Value) / hundredPercent);
 
-	xTrackBar->Value = static_cast<int>(xTrackBar->Maximum * static_cast<double>(xNumericUpDown->Value) / hundredPercent);
-
-	changePositionWatermark();
-
+		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
+	
+		_isUsedTypeChanging = false;
+	}
 }
 
 System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const double hundredPercent = 100;
+
+		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * hundredPercent);
+
+		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
 	
-	const double hundredPercent = 100;
-
-	yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * hundredPercent);
-
-	changePositionWatermark();
-
+		_isUsedTypeChanging = false;
+	}
 }
 
 System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (!_isUsedTypeChanging) {
+		_isUsedTypeChanging = true;
+		const int hundredPercent = 100;
 
-	const int hundredPercent = 100;
+		yTrackBar->Value = static_cast<int>(yTrackBar->Maximum * static_cast<double>(yNumericUpDown->Value) / hundredPercent);
 
-	yTrackBar->Value = static_cast<int>(yTrackBar->Maximum * static_cast<double>(yNumericUpDown->Value) / hundredPercent);
-
-	changePositionWatermark();
-
-}
-
-void Work::ImageWorkForm::changePositionWatermark(void) {
-	Bitmap^ pictureBoxImage = gcnew Bitmap(_mainImage);
-	Graphics^ imageGraphics = Graphics::FromImage(pictureBoxImage);
-
-	imageGraphics->DrawImage(pictureBoxImage, 0, 0);
-	imageGraphics->DrawImage(_watermarkImage, xTrackBar->Value, yTrackBar->Value);
-
-	pictureBox->Image = pictureBoxImage;
+		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
+		pictureBox->Image = _imageWork->getResultingImage();
+	
+		_isUsedTypeChanging = false;
+	}
 }
 
 System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
-	Bitmap^ newImage = gcnew Bitmap(_mainImage);
-	Graphics^ imageGraphics = Graphics::FromImage(newImage);
-
-	imageGraphics->DrawImage(newImage, 0, 0);
-	imageGraphics->DrawImage(_watermarkImage, xTrackBar->Value, yTrackBar->Value);
-
-	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, newImage);
+	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, _imageWork->getResultingImage());
 
 	imageSaveForm->Location = this->Location;
 	imageSaveForm->Show();

@@ -1,5 +1,6 @@
 #pragma once
 #include "ImageUploadForm.h"
+#include "ImageWorkClass.h"
 
 namespace Work {
 
@@ -16,7 +17,7 @@ namespace Work {
 	public ref class ImageWorkForm : public System::Windows::Forms::Form {
 	public:
 
-		ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, Bitmap^ mainImage, Bitmap^ watermarkImage);
+		ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork);
 
 	protected:
 		/// <summary>
@@ -26,26 +27,28 @@ namespace Work {
 		~ImageWorkForm();
 
 	private:
-		Upload::ImageUploadForm^ _imageUploadForm;
-		Bitmap^ _mainImage;
-		Bitmap^ _watermarkImage;
-		Bitmap^ _originalWatermark;
-		int _alpha = 255;
-		int whide_procent = 0;
-		int _x = 0;
-		int _y = 0;
+		Upload::ImageUploadForm^ _imageUploadForm = nullptr;
+		ImageWork^ _imageWork = nullptr;
+		bool _isUsedTypeChanging = false;
 
 	private: System::Windows::Forms::Label^          changeSizeHeading;
-	private: System::Windows::Forms::TrackBar^       changeSizeTrackBar;
-	private: System::Windows::Forms::NumericUpDown^  changeSizeNumericUpDown;
-	private: System::Windows::Forms::Label^          changeSizePercentSignLabel;
+	private: System::Windows::Forms::TrackBar^		 sizeTrackBar;
+	private: System::Windows::Forms::NumericUpDown^  sizeNumericUpDown;
+	private: System::Windows::Forms::Label^			 sizePercentSignLabel;
+
+
+
 
 	private: System::Windows::Forms::Label^          changeTransparencyHeading;
-	private: System::Windows::Forms::TrackBar^       changeTransparencyTrackBar;
-	private: System::Windows::Forms::NumericUpDown^  changeTransparencyNumericUpDown;
-	private: System::Windows::Forms::Label^          changeTransparencyPercentSignLabel;
+	private: System::Windows::Forms::TrackBar^		 transparencyTrackBar;
+	private: System::Windows::Forms::NumericUpDown^  transparencyNumericUpDown;
+	private: System::Windows::Forms::Label^			 transparencyPercentSignLabel;
+	private: System::Windows::Forms::GroupBox^		 positionGroupBox;
 
-	private: System::Windows::Forms::GroupBox^       changePositionGroupBox;
+
+
+
+
 
 	private: System::Windows::Forms::Label^          xHeading;
 	private: System::Windows::Forms::TrackBar^       xTrackBar;
@@ -60,7 +63,7 @@ namespace Work {
 	private: System::Windows::Forms::Button^         backButton;
 	private: System::Windows::Forms::Button^         nextButton;
 	
-	private: System::Windows::Forms::Label^  capabilitPictureBoxLabel;
+	private: System::Windows::Forms::Label^			 capabilitPictureBoxLabel;
 	private: System::Windows::Forms::PictureBox^     pictureBox;
 	
 	private:
@@ -77,13 +80,13 @@ namespace Work {
 		void InitializeComponent(void);
 
 #pragma endregion
-	private: System::Void changeSizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 
-	private: System::Void changeSizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
 
-	private: System::Void changeTransparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 
-	private: System::Void changeTransparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
 
 	private: System::Void xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 
@@ -99,14 +102,8 @@ namespace Work {
 
 	private: System::Void pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 	
-	private: System::Void  ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
+	private: System::Void ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 			 
-	private: void changePositionWatermark(void);
-			 
-	private: void changeTransparencyWatermark(void);
-			 
-	private: void changeSizeWatermark(void);
-
 	};
 
 }
