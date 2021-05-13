@@ -375,7 +375,7 @@ System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System:
 		const int maxAlpha = 255;
 		const int hundredPercent = 100;
 
-		transparencyTrackBar->Value = static_cast<int>(-maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent);
+		transparencyTrackBar->Value = static_cast<int>( -(maxAlpha - maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent) );
 
 		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
