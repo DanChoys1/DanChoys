@@ -36,9 +36,7 @@ Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, Ima
 Work::ImageWorkForm::~ImageWorkForm() {
 
 	if (components) {
-
 		delete components;
-
 	}
 
 }

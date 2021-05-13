@@ -234,7 +234,7 @@ System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Obj
 }
 
 System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	
+
 	bool isExistMainImage = mainPictureBox->Image != nullptr;
 	bool isExistWatermark = watermarkPictureBox->Image != nullptr;
 

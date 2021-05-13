@@ -52,7 +52,6 @@ void ImageWork::changePositionWatermark(int x, int y) {
 
 	imageGraphics->DrawImage(_resultingImage, 0, 0);
 	imageGraphics->DrawImage(_watermark, _x, _y);
-
 }
 
 void ImageWork::changeTransparencyWatermark(int transparency) {
