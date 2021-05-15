@@ -6,10 +6,12 @@ ref class ImageWork {
 	Bitmap^ _resultingImage = nullptr;
 	Bitmap^ _mainImage = nullptr;
 	Bitmap^ _watermark = nullptr;
-	Bitmap^ _originalWatermark = nullptr;
+	array<bool, 2>^ _transparencyPixel = nullptr;
 	int _alpha = 255;
 	int _x = 0;
 	int _y = 0;
+	int _newWidthWatermark = 0;
+	int _newHeightWatermark = 0;
 
 public:
 	ImageWork(Image^ mainImage, Image^ watermark);
@@ -31,12 +33,6 @@ public:
 	int getHeightWatermark(void);
 
 	int getWidthWatermark(void);
-
-	Bitmap^ getOriginalWatermark(void);
-
-	int getHeightOriginalWatermark(void);
-
-	int getWidthOriginalWatermark(void);
 	
 	Bitmap^ getResultingImage(void);
 

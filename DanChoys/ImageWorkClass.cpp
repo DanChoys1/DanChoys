@@ -30,11 +30,24 @@ ImageWork::ImageWork(Image^ mainImage, Image^ watermark) {
 		if ((newWidth != 0) && (newHeight != 0)) {
 			_watermark = gcnew Bitmap(watermark, newWidth, newHeight);
 		}
-
 	}
 
 	if (_watermark != nullptr) {
-		_originalWatermark = gcnew Bitmap(_watermark);
+		_newWidthWatermark = _watermark->Width;
+		_newHeightWatermark = _watermark->Height;
+
+		_transparencyPixel = gcnew array<bool, 2>(_watermark->Width, _watermark->Height);
+
+		for (int x = 0; x < _watermark->Width; x++) {
+			for (int y = 0; y < _watermark->Height; y++) {
+				Color watermarkPixel = _watermark->GetPixel(x, y);
+
+				if (watermarkPixel.A == 0) {
+					_transparencyPixel[x, y] = true;
+				}
+
+			}
+		}
 
 		_resultingImage = gcnew Bitmap(_mainImage);
 		Graphics^ imageGraphics = Graphics::FromImage(_resultingImage);
@@ -51,60 +64,56 @@ void ImageWork::changePositionWatermark(int x, int y) {
 	Graphics^ imageGraphics = Graphics::FromImage(_resultingImage);
 
 	imageGraphics->DrawImage(_resultingImage, 0, 0);
-	imageGraphics->DrawImage(_watermark, _x, _y);
+	imageGraphics->DrawImage(_watermark, _x, _y, _newWidthWatermark, _newHeightWatermark);
 }
 
 void ImageWork::changeTransparencyWatermark(int transparency) {
 	_alpha = abs(transparency);
 
 	for (int x = 0; x < _watermark->Width; x++) {
-
 		for (int y = 0; y < _watermark->Height; y++) {
 
-			Color watermarkPixel = _watermark->GetPixel(x, y);
-			watermarkPixel = Color::FromArgb(_alpha, watermarkPixel);
-			_watermark->SetPixel(x, y, watermarkPixel);
+			if (!_transparencyPixel[x, y]) {
+				Color watermarkPixel = _watermark->GetPixel(x, y);
+				watermarkPixel = Color::FromArgb(_alpha, watermarkPixel);
+				_watermark->SetPixel(x, y, watermarkPixel);
+			}
 
 		}
-
 	}
 
 	changePositionWatermark(_x, _y);
 }
 
 void ImageWork::changeSizeWatermark(int newSize) {
-	int width = 0;
-	int height = 0;
-	double imageRatio = _mainImage->Width / static_cast<double>(_originalWatermark->Width);
+	double imageRatio = _mainImage->Width / static_cast<double>(_watermark->Width);
 
-	if ((_originalWatermark->Height * imageRatio) < _mainImage->Height) {
+	if ((_watermark->Height * imageRatio) < _mainImage->Height) {
 
-		width = static_cast<int>(_mainImage->Width * (newSize * 0.01));
-		height = static_cast<int>((_originalWatermark->Height * imageRatio) * (newSize * 0.01));
+		_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * 0.01));
+		_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * 0.01));
 
-		while ((width == 0) || (height == 0)) {
+		while ((_newWidthWatermark == 0) || (_newHeightWatermark == 0)) {
 			newSize++;
-			width = static_cast<int>(_mainImage->Width * (newSize * 0.01));
-			height = static_cast<int>((_originalWatermark->Height * imageRatio) * (newSize * 0.01));
+			_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * 0.01));
+			_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * 0.01));
 		}
 
 	} else {
 
-		imageRatio = _mainImage->Height / static_cast<double>(_originalWatermark->Height);
-		height = static_cast<int>(_mainImage->Height * (newSize * 0.01));
-		width = static_cast<int>((_originalWatermark->Width * imageRatio) * (newSize * 0.01));
+		imageRatio = _mainImage->Height / static_cast<double>(_watermark->Height);
+		_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * 0.01));
+		_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * 0.01));
 		
-		while ((width == 0) || (height == 0)) {
+		while ((_newWidthWatermark == 0) || (_newHeightWatermark == 0)) {
 			newSize++;
-			height = static_cast<int>(_mainImage->Height * (newSize * 0.01));
-			width = static_cast<int>((_originalWatermark->Width * imageRatio) * (newSize * 0.01));
+			_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * 0.01));
+			_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * 0.01));
 		}
 
 	}
 
-	_watermark = gcnew Bitmap(_originalWatermark, width, height);
-
-	changeTransparencyWatermark(_alpha);	
+	changePositionWatermark(_x, _y);
 }
 
 Bitmap^ ImageWork::getMainImage(void) {
@@ -124,23 +133,11 @@ Bitmap^ ImageWork::getWatermark(void) {
 }
 
 int ImageWork::getHeightWatermark(void) {
-	return _watermark->Height;
+	return _newHeightWatermark;
 }
 
 int ImageWork::getWidthWatermark(void) {
-	return _watermark->Width;
-}
-
-Bitmap^ ImageWork::getOriginalWatermark(void) {
-	return _originalWatermark;
-}
-
-int ImageWork::getHeightOriginalWatermark(void) {
-	return _originalWatermark->Height;
-}
-
-int ImageWork::getWidthOriginalWatermark(void) {
-	return _originalWatermark->Width;
+	return _newWidthWatermark;
 }
 	
 Bitmap^ ImageWork::getResultingImage(void) {

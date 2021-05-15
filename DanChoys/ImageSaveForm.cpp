@@ -7,12 +7,10 @@ Save::ImageSaveForm::ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, Bitmap^ n
 										_imageWorkForm(imageWorkForm), _newImage(newImage) {
 
 	InitializeComponent();
-
 	pictureBox->Image = _newImage;
 }
 
 Save::ImageSaveForm::~ImageSaveForm() {
-
 	if (components) {
 		delete components;
 	}
@@ -126,14 +124,12 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 }
 
 System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	
 	saveFileDialog->Filter = "PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
 	saveFileDialog->ShowDialog();
 	saveImagePathTextBox->Text = saveFileDialog->FileName;
 }
 
 System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	int numberUploadedImages = _imageWorkForm->getImageUploadForm()->getNumberUploadedImages();
 
 	for (int i = 0; i < numberUploadedImages; i++) {
@@ -177,19 +173,14 @@ System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, Syst
 		MessageBox::Show("Вы не указали путь к файлу.", "Ошибка!");
 
 	}
-
 }
 
 System::Void Save::ImageSaveForm::backButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	_imageWorkForm->Location = this->Location;
 	_imageWorkForm->Show();
 	this->Hide();
-
 }
 
 System::Void Save::ImageSaveForm::ImageSaveForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
-
 	Application::Exit();
-
 }

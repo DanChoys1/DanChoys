@@ -3,24 +3,18 @@
 using namespace System::Drawing;
 
 Enlarged::EnlargConvertedImage::EnlargConvertedImage(Image^ image) {
-
 	InitializeComponent();
 
 	pictureBox->Width = SystemInformation::PrimaryMonitorSize.Width;
 	pictureBox->Height = SystemInformation::PrimaryMonitorSize.Height;
 
 	pictureBox->Image = image;
-
 }
 
 Enlarged::EnlargConvertedImage::~EnlargConvertedImage() {
-
 	if (components) {
-
 		delete components;
-
 	} 
-
 }
 
 void Enlarged::EnlargConvertedImage::InitializeComponent(void) {
@@ -54,7 +48,5 @@ void Enlarged::EnlargConvertedImage::InitializeComponent(void) {
 }
 
 System::Void Enlarged::EnlargConvertedImage::pictureBox_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	this->Hide();
-
 }

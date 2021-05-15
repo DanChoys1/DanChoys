@@ -26,19 +26,16 @@ Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, Ima
 
 	}
 
-	xTrackBar->Maximum = imageWork->getWidthMainImage();
-	yTrackBar->Maximum = imageWork->getHeightMainImage();
+	xTrackBar->Maximum = _imageWork->getWidthMainImage() - _imageWork->getWidthWatermark();
+	yTrackBar->Maximum = _imageWork->getHeightMainImage() - _imageWork->getHeightWatermark();
 
 	pictureBox->Image = imageWork->getResultingImage();
-
 }
 
 Work::ImageWorkForm::~ImageWorkForm() {
-
 	if (components) {
 		delete components;
 	}
-
 }
 
 void Work::ImageWorkForm::InitializeComponent(void) {
@@ -335,6 +332,8 @@ System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, S
 		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
+		changeMaxMinPositionValue();
+
 		pictureBox->Image = _imageWork->getResultingImage();
 
 		_isUsedTypeChanging = false;
@@ -347,10 +346,18 @@ System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^
 		sizeTrackBar->Value = static_cast<int>(sizeNumericUpDown->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
+		changeMaxMinPositionValue();
+
 		pictureBox->Image = _imageWork->getResultingImage();
 		
 		_isUsedTypeChanging = false;
 	}
+}
+
+System::Void Work::ImageWorkForm::changeMaxMinPositionValue(System::Void) {
+	xTrackBar->Maximum = _imageWork->getWidthMainImage() - _imageWork->getWidthWatermark();
+	yTrackBar->Maximum = _imageWork->getHeightMainImage() - _imageWork->getHeightWatermark();
+	_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 }
 
 System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
@@ -374,8 +381,9 @@ System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System:
 		_isUsedTypeChanging = true;
 		const int maxAlpha = 255;
 		const int hundredPercent = 100;
-
-		transparencyTrackBar->Value = static_cast<int>( -(maxAlpha - maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent) );
+		const int transparencyValue = static_cast<int>(-maxAlpha + maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent);
+		
+		transparencyTrackBar->Value = transparencyValue;
 
 		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
@@ -395,7 +403,7 @@ System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^  sender, Syst
 		pictureBox->Image = _imageWork->getResultingImage();
 
 		_isUsedTypeChanging = false;
-		}
+	}
 }
 
 System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -441,35 +449,26 @@ System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  s
 }
 
 System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, _imageWork->getResultingImage());
 
 	imageSaveForm->Location = this->Location;
 	imageSaveForm->Show();
 	this->Hide();
-
 }
 
 System::Void Work::ImageWorkForm::backButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	_imageUploadForm->Location = this->Location;
 	_imageUploadForm->Show();
 	this->Hide();
-
 }
 
 System::Void Work::ImageWorkForm::pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-
 	Enlarged::EnlargConvertedImage^ enlargConvertedImage = gcnew Enlarged::EnlargConvertedImage(pictureBox->Image);
-
 	enlargConvertedImage->Show();
-
 }
 
 System::Void  Work::ImageWorkForm::ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
-	
 	Application::Exit();
-
 }
 
 Upload::ImageUploadForm^  Work::ImageWorkForm::getImageUploadForm(void) {

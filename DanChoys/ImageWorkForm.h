@@ -106,6 +106,7 @@ namespace Work {
 	
 	System::Void ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 			 
+	System::Void changeMaxMinPositionValue(System::Void);
 	};
 
 }

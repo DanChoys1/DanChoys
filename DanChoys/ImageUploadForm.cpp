@@ -5,17 +5,13 @@
 using namespace System::Drawing;
 
 Upload::ImageUploadForm::ImageUploadForm(void) {
-
 	InitializeComponent();
-
 }
 
 Upload::ImageUploadForm::~ImageUploadForm() {
-
 	if (components) {
 		delete components;
 	}
-
 }
 
 void Upload::ImageUploadForm::InitializeComponent(void) {
@@ -170,17 +166,14 @@ void Upload::ImageUploadForm::InitializeComponent(void) {
 }
 
 System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
 		mainImagePath->Text = openFileDialog->FileName;
 
 	}
-
 }
 
 System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-	
 	try {
 
 		mainPictureBox->Image = Image::FromFile(mainImagePath->Text);
@@ -198,21 +191,17 @@ System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^ 
 		mainPictureBox->Image = nullptr;
 
 	}
-
 }
 
 System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
 		watermarkImagePath->Text = openFileDialog->FileName;
 
 	}
-
 }
 
 System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-
 	try {
 
 		watermarkPictureBox->Image = Image::FromFile(watermarkImagePath->Text);
@@ -230,7 +219,6 @@ System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Obj
 		watermarkPictureBox->Image = nullptr;
 
 	}
-
 }
 
 System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
