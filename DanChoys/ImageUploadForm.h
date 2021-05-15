@@ -40,7 +40,6 @@ namespace Upload {
 	private: System::Windows::Forms::Label^			  watermarkPictureBoxLabel;
 	private: System::Windows::Forms::PictureBox^      watermarkPictureBox;
 
-	
 	private: System::Windows::Forms::Button^          nextButton;
 
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog;
@@ -70,7 +69,6 @@ namespace Upload {
 		System::Void searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e);
 
 		System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
-
 	};
 
 }

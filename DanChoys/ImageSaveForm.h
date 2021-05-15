@@ -40,7 +40,6 @@ namespace Save {
 	private: System::Windows::Forms::Button^          saveButton;
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog;
 
-
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -65,7 +64,6 @@ namespace Save {
 	private: System::Void backButton_Click(System::Object^  sender, System::EventArgs^  e);
 
 	private: System::Void ImageSaveForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
-
 	};
 
 }

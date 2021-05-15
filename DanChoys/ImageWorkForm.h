@@ -20,6 +20,7 @@ namespace Work {
 		ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork);
 
 		Upload::ImageUploadForm^ getImageUploadForm(void);
+
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -37,19 +38,11 @@ namespace Work {
 	private: System::Windows::Forms::NumericUpDown^  sizeNumericUpDown;
 	private: System::Windows::Forms::Label^			 sizePercentSignLabel;
 
-
-
-
 	private: System::Windows::Forms::Label^          changeTransparencyHeading;
 	private: System::Windows::Forms::TrackBar^		 transparencyTrackBar;
 	private: System::Windows::Forms::NumericUpDown^  transparencyNumericUpDown;
 	private: System::Windows::Forms::Label^			 transparencyPercentSignLabel;
 	private: System::Windows::Forms::GroupBox^		 positionGroupBox;
-
-
-
-
-
 
 	private: System::Windows::Forms::Label^          xHeading;
 	private: System::Windows::Forms::TrackBar^       xTrackBar;

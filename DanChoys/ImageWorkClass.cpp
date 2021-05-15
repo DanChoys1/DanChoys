@@ -44,6 +44,8 @@ ImageWork::ImageWork(Image^ mainImage, Image^ watermark) {
 
 				if (watermarkPixel.A == 0) {
 					_transparencyPixel[x, y] = true;
+				} else {
+					_transparencyPixel[x, y] = false;
 				}
 
 			}

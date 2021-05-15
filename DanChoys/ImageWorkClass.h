@@ -39,5 +39,4 @@ public:
 	int getHeightResultingImage(void);
 
 	int getWidthResultingImage(void);
-
 };
