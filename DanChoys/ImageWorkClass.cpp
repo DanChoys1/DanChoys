@@ -51,11 +51,7 @@ ImageWork::ImageWork(Image^ mainImage, Image^ watermark) {
 			}
 		}
 
-		_resultingImage = gcnew Bitmap(_mainImage);
-		Graphics^ imageGraphics = Graphics::FromImage(_resultingImage);
-
-		imageGraphics->DrawImage(_resultingImage, 0, 0);
-		imageGraphics->DrawImage(_watermark, 0, 0);
+		changePositionWatermark(0, 0);
 	}
 }
 

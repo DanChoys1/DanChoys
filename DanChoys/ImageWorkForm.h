@@ -31,7 +31,6 @@ namespace Work {
 	private:
 		Upload::ImageUploadForm^ _imageUploadForm = nullptr;
 		ImageWork^ _imageWork = nullptr;
-		bool _isUsedTypeChanging = false;
 
 	private: System::Windows::Forms::Label^          changeSizeHeading;
 	private: System::Windows::Forms::TrackBar^		 sizeTrackBar;

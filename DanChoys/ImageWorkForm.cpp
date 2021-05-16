@@ -8,20 +8,18 @@ Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, Ima
 	_imageUploadForm(imageUploadForm), _imageWork(imageWork) {
 
 	InitializeComponent();
-	_imageUploadForm = imageUploadForm;
-	_imageWork = imageWork;
 
 	const double imageRatio = imageWork->getWidthMainImage() / static_cast<double>(imageWork->getWidthWatermark());
-	const int hundredPercent = 100;
+	const int maxPercent = 100;
 
 	if ((imageWork->getHeightWatermark() * imageRatio) < imageWork->getHeightMainImage()) {
 																	
-		sizeTrackBar->Value = (imageWork->getWidthWatermark() * hundredPercent) / imageWork->getWidthMainImage();
+		sizeTrackBar->Value = (imageWork->getWidthWatermark() * maxPercent) / imageWork->getWidthMainImage();
 		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 
 	} else {
 
-		sizeTrackBar->Value = (imageWork->getHeightWatermark() * hundredPercent) / imageWork->getHeightMainImage();
+		sizeTrackBar->Value = (imageWork->getHeightWatermark() * maxPercent) / imageWork->getHeightMainImage();
 		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 
 	}
@@ -327,124 +325,129 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 }
 
 System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
+	if (sizeTrackBar->Focused) {
 		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
 		changeMaxMinPositionValue();
 
 		pictureBox->Image = _imageWork->getResultingImage();
-
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
+	if (sizeNumericUpDown->Focused) {
 		sizeTrackBar->Value = static_cast<int>(sizeNumericUpDown->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
 		changeMaxMinPositionValue();
 
 		pictureBox->Image = _imageWork->getResultingImage();
-		
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::changeMaxMinPositionValue(System::Void) {
+	const int maxPercent = 100;
+	const int minPercent = 0;
+
 	xTrackBar->Maximum = _imageWork->getWidthMainImage() - _imageWork->getWidthWatermark();
+
+	if (xTrackBar->Maximum != 0) {
+
+		if (xNumericUpDown->Minimum == maxPercent) {
+			xNumericUpDown->Minimum = minPercent;
+		}
+
+		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * maxPercent);
+	} else {
+		xNumericUpDown->Minimum = maxPercent;
+		xNumericUpDown->Value = maxPercent;
+	}
+
 	yTrackBar->Maximum = _imageWork->getHeightMainImage() - _imageWork->getHeightWatermark();
+
+	if (yTrackBar->Maximum != 0){
+
+		if (yNumericUpDown->Minimum == maxPercent) {
+			yNumericUpDown->Minimum = minPercent;
+		}
+
+		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * maxPercent);
+	} else {
+		yNumericUpDown->Minimum = maxPercent;
+		yNumericUpDown->Value = maxPercent;
+	}
+
 	_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 }
 
 System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
+	if (transparencyTrackBar->Focused) {
 		const double maxAlpha = 255.0;
-		const int hundredPercent = 100;
-		const double percentageTransparency = hundredPercent + (transparencyTrackBar->Value / maxAlpha) * hundredPercent;
+		const int maxPercent = 100;
+		const double percentageTransparency = maxPercent + (transparencyTrackBar->Value / maxAlpha) * maxPercent;
 
 		transparencyNumericUpDown->Value = static_cast<Decimal>(percentageTransparency);
 
 		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
+	if (transparencyNumericUpDown->Focused) {
 		const int maxAlpha = 255;
-		const int hundredPercent = 100;
-		const int transparencyValue = static_cast<int>(-maxAlpha + maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / hundredPercent);
+		const int maxPercent = 100;
+		const int transparencyValue = static_cast<int>(-maxAlpha + maxAlpha * static_cast<double>(transparencyNumericUpDown->Value) / maxPercent);
 		
 		transparencyTrackBar->Value = transparencyValue;
 
 		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
-		const int hundredPercent = 100;
+	if (xTrackBar->Focused) {
+		const int maxPercent = 100;
 
-		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * hundredPercent);
+		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * maxPercent);
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
-		const int hundredPercent = 100;
+	if (xNumericUpDown->Focused) {
+		const int maxPercent = 100;
 
-		xTrackBar->Value = static_cast<int>(xTrackBar->Maximum * static_cast<double>(xNumericUpDown->Value) / hundredPercent);
+		xTrackBar->Value = static_cast<int>(xTrackBar->Maximum * static_cast<double>(xNumericUpDown->Value) / maxPercent);
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-	
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
-		const double hundredPercent = 100;
+	if (yTrackBar->Focused) {
+		const double maxPercent = 100;
 
-		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * hundredPercent);
+		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * maxPercent);
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-	
-		_isUsedTypeChanging = false;
 	}
 }
 
 System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-	if (!_isUsedTypeChanging) {
-		_isUsedTypeChanging = true;
-		const int hundredPercent = 100;
+	if (yNumericUpDown->Focused) {
+		const int maxPercent = 100;
 
-		yTrackBar->Value = static_cast<int>(yTrackBar->Maximum * static_cast<double>(yNumericUpDown->Value) / hundredPercent);
+		yTrackBar->Value = static_cast<int>(yTrackBar->Maximum * static_cast<double>(yNumericUpDown->Value) / maxPercent);
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
-	
-		_isUsedTypeChanging = false;
 	}
 }
 

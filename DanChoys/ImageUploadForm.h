@@ -59,7 +59,6 @@ namespace Upload {
 
 #pragma endregion
 	private:
-
 		System::Void mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
 
 		System::Void searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e);
