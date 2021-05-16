@@ -124,7 +124,7 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 }
 
 System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	saveFileDialog->Filter = "PNG (.png)|*.png|BMP (.bmp)|*.bmp|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
+	saveFileDialog->Filter = "No format |*.*|PNG (.png)|*.png|BMP (.bmp)|*.bmp|GIF (.gif)|*.gif|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
 	saveFileDialog->ShowDialog();
 	saveImagePathTextBox->Text = saveFileDialog->FileName;
 }
@@ -136,7 +136,7 @@ System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, Syst
 		String ^_pathUploadedImages = _imageWorkForm->getImageUploadForm()->getPathUploadedImages(i);
 
 		if (_pathUploadedImages == saveImagePathTextBox->Text) {
-			MessageBox::Show("Изображение с таким именем уже используется в программе.\n"
+			MessageBox::Show("Изображение с таким именем используется в программе.\n"
 				             "Пожалуйста, укажите другое имя.", "Ошибка!");
 			return;
 		}
