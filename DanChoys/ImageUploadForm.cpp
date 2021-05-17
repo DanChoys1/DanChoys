@@ -236,28 +236,17 @@ System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, 
 		return;
 	}
 
-	ImageWork^ imageWork = gcnew ImageWork(mainPictureBox->Image, watermarkPictureBox->Image);
+	ImageWork^ imageWork = gcnew ImageWork(mainPictureBox->Image, mainImagePath->Text,
+											watermarkPictureBox->Image, watermarkImagePath->Text);
 
 	if (imageWork->getWatermark() == nullptr) {
 		MessageBox::Show("Основное изображение слишком мало.", "Ошибка!");
 		return;
 	}
 
-	_pathUploadedImages = gcnew array<String^>(_numberUploadedImages);
-	_pathUploadedImages[0] = mainImagePath->Text;
-	_pathUploadedImages[1] = watermarkImagePath->Text;
-
 	Work::ImageWorkForm^ imageWorkForm = gcnew Work::ImageWorkForm(this, imageWork);
 
 	imageWorkForm->Location = this->Location;
 	imageWorkForm->Show();
 	this->Hide();
-}
-
-System::String^ Upload::ImageUploadForm::getPathUploadedImages(int pictureNumber) {
-	return _pathUploadedImages[pictureNumber];
-}
-
-int Upload::ImageUploadForm::getNumberUploadedImages(void) {
-	return _numberUploadedImages;
 }

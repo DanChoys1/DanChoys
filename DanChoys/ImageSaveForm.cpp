@@ -3,11 +3,11 @@
 
 using namespace System::Drawing;
 
-Save::ImageSaveForm::ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, Bitmap^ newImage) : 
-										_imageWorkForm(imageWorkForm), _newImage(newImage) {
+Save::ImageSaveForm::ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, ImageWork^ imageWork) :
+										_imageWorkForm(imageWorkForm), _imageWork(imageWork) {
 
 	InitializeComponent();
-	pictureBox->Image = _newImage;
+	pictureBox->Image = _imageWork->getResultingImage();
 }
 
 Save::ImageSaveForm::~ImageSaveForm() {
@@ -130,16 +130,15 @@ System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object
 }
 
 System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	int numberUploadedImages = _imageWorkForm->getImageUploadForm()->getNumberUploadedImages();
+	const int numberUploadedImages = 2;
 
-	for (int i = 0; i < numberUploadedImages; i++) {
-		String ^_pathUploadedImages = _imageWorkForm->getImageUploadForm()->getPathUploadedImages(i);
+	String^ mainImagePath = _imageWork->getMainImagePath();
+	String^ watermarkImagePath = _imageWork->getWatermarkImagePath();
 
-		if (_pathUploadedImages == saveImagePathTextBox->Text) {
-			MessageBox::Show("Изображение с таким именем используется в программе.\n"
-				             "Пожалуйста, укажите другое имя.", "Ошибка!");
-			return;
-		}
+	if ( (mainImagePath == saveImagePathTextBox->Text) || (watermarkImagePath == saveImagePathTextBox->Text) ) {
+		MessageBox::Show("Изображение с таким именем используется в программе.\n"
+				            "Пожалуйста, укажите другое имя.", "Ошибка!");
+		return;
 	}
 
 	bool isFileExists = System::IO::File::Exists(saveImagePathTextBox->Text);
@@ -155,7 +154,7 @@ System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, Syst
 	}
 
 	try {
-		_newImage->Save(saveImagePathTextBox->Text);
+		_imageWork->getResultingImage()->Save(saveImagePathTextBox->Text);
 
 		Windows::Forms::DialogResult result = MessageBox::Show("Изображение успешно сохранено.\n"
                                                                "Хотите закрыть приложение?", "Сообщение", MessageBoxButtons::YesNo);

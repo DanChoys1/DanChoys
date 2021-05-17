@@ -452,7 +452,7 @@ System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  s
 }
 
 System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, _imageWork->getResultingImage());
+	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, _imageWork);
 
 	imageSaveForm->Location = this->Location;
 	imageSaveForm->Show();
@@ -472,8 +472,4 @@ System::Void Work::ImageWorkForm::pictureBox_MouseDoubleClick(System::Object^  s
 
 System::Void  Work::ImageWorkForm::ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
 	Application::Exit();
-}
-
-Upload::ImageUploadForm^  Work::ImageWorkForm::getImageUploadForm(void) {
-	return _imageUploadForm;
 }

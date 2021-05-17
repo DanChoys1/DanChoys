@@ -2,9 +2,12 @@
 
 #include "ImageWorkClass.h"
 
-ImageWork::ImageWork(Image^ mainImage, Image^ watermark) {
+ImageWork::ImageWork(Image^ mainImage, String^ mainImagePath, Image^ watermark, String^ watermarkImagePath) {
 	_mainImage = gcnew Bitmap(mainImage);
-		
+
+	_mainImagePath = mainImagePath;
+	_watermarkImagePath = watermarkImagePath;
+
 	const bool isMainImageBigger = (mainImage->Width >= watermark->Width) && (mainImage->Height >= watermark->Height);
 	double imageRatio = mainImage->Width / static_cast<double>(watermark->Width);
 
@@ -118,6 +121,10 @@ Bitmap^ ImageWork::getMainImage(void) {
 	return _mainImage;
 }
 
+String^ ImageWork::getMainImagePath(void) {
+	return _mainImagePath;
+}
+
 int ImageWork::getHeightMainImage(void) {
 	return _mainImage->Height;
 }
@@ -128,6 +135,10 @@ int ImageWork::getWidthMainImage(void) {
 
 Bitmap^ ImageWork::getWatermark(void) {
 	return _watermark;
+}
+
+String^ ImageWork::getWatermarkImagePath(void) {
+	return _watermarkImagePath;
 }
 
 int ImageWork::getHeightWatermark(void) {

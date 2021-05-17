@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ImageWorkForm.h"
+#include "ImageWorkClass.h"
 
 namespace Save {
 
@@ -17,7 +18,7 @@ namespace Save {
 	public ref class ImageSaveForm : public System::Windows::Forms::Form {
 	public:
 
-		ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, Bitmap^ newImage);
+		ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, ImageWork^ _imageWork);
 
 	protected:
 		/// <summary>
@@ -26,8 +27,8 @@ namespace Save {
 		~ImageSaveForm();
 
 	private:
-		Work::ImageWorkForm^ _imageWorkForm;
-		Bitmap^ _newImage;
+		Work::ImageWorkForm^ _imageWorkForm = nullptr;
+		ImageWork^ _imageWork = nullptr;
 	
 	private: System::Windows::Forms::Label^           newImageSavePathLabel;
 	private: System::Windows::Forms::TextBox^         saveImagePathTextBox;

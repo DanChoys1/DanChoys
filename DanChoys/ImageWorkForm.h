@@ -19,8 +19,6 @@ namespace Work {
 
 		ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork);
 
-		Upload::ImageUploadForm^ getImageUploadForm(void);
-
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.

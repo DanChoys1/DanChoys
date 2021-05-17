@@ -13,20 +13,12 @@ namespace Upload {
 	public:
 		ImageUploadForm(void);
 
-		System::String^ getPathUploadedImages(int pictureNumber);
-
-		int getNumberUploadedImages(void);
-
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
 		/// </summary>
 
 		~ImageUploadForm();
-
-	private:
-		array<String^>^ _pathUploadedImages = nullptr;
-		const int _numberUploadedImages = 2;
 
 	private: System::Windows::Forms::Label^			 mainImagePathLabel;
 	private: System::Windows::Forms::TextBox^		 mainImagePath;
