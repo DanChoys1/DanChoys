@@ -12,19 +12,11 @@ namespace Save {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// —водка дл€ ImageSaveForm
-	/// </summary>
 	public ref class ImageSaveForm : public System::Windows::Forms::Form {
-	public:
+	
+	public: ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, ImageWork^ _imageWork);
 
-		ImageSaveForm(Work::ImageWorkForm^ imageWorkForm, ImageWork^ _imageWork);
-
-	protected:
-		/// <summary>
-		/// ќсвободить все используемые ресурсы.
-		/// </summary>
-		~ImageSaveForm();
+	protected: ~ImageSaveForm();
 
 	private:
 		Work::ImageWorkForm^ _imageWorkForm = nullptr;
@@ -41,20 +33,11 @@ namespace Save {
 	private: System::Windows::Forms::Button^          saveButton;
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog;
 
-	private:
-		/// <summary>
-		/// ќб€зательна€ переменна€ конструктора.
-		/// </summary>
-
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// “ребуемый метод дл€ поддержки конструктора Ч не измен€йте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
 
-		void InitializeComponent(void);
+	private: void InitializeComponent(void);
 
 #pragma endregion
 		

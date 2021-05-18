@@ -10,15 +10,10 @@ namespace Upload {
 	using namespace System::Drawing;
 	
 	public ref class ImageUploadForm : public System::Windows::Forms::Form {
-	public:
-		ImageUploadForm(void);
 
-	protected:
-		/// <summary>
-		/// ќсвободить все используемые ресурсы.
-		/// </summary>
+	public: ImageUploadForm(void);
 
-		~ImageUploadForm();
+	protected: ~ImageUploadForm();
 
 	private: System::Windows::Forms::Label^			 mainImagePathLabel;
 	private: System::Windows::Forms::TextBox^		 mainImagePath;
@@ -36,30 +31,20 @@ namespace Upload {
 
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog;
 
-	private:
-		/// <summary>
-		/// ќб€зательна€ переменна€ конструктора.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// “ребуемый метод дл€ поддержки конструктора Ч не измен€йте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
-		void InitializeComponent(void);
+
+	private: void InitializeComponent(void);
 
 #pragma endregion
-	private:
-		System::Void mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e);
 
-		System::Void searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void watermarkImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
 
-		System::Void watermarkImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
-
-		System::Void searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e);
-
-		System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
 	};
 
 }

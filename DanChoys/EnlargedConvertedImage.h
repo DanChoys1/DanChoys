@@ -9,40 +9,19 @@ namespace Enlarged {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// —водка дл€ EnlargedConvertedImage
-	/// </summary>
-
 	public ref class EnlargConvertedImage : public System::Windows::Forms::Form {
-	public:
 
-		EnlargConvertedImage(Image^ image);
+	public: EnlargConvertedImage(Image^ image);
 
-	protected:
-		/// <summary>
-		/// ќсвободить все используемые ресурсы.
-		/// </summary>
-
-		~EnlargConvertedImage();
+	protected: ~EnlargConvertedImage();
 
 	private: System::Windows::Forms::PictureBox^  pictureBox;
 
-	protected:
-
-	private:
-		/// <summary>
-		/// ќб€зательна€ переменна€ конструктора.
-		/// </summary>
-
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// “ребуемый метод дл€ поддержки конструктора Ч не измен€йте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
 
-		void InitializeComponent(void);
+	private: void InitializeComponent(void);
 
 #pragma endregion
 

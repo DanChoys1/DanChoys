@@ -11,20 +11,11 @@ namespace Work {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// —водка дл€ ImageWorkForm
-	/// </summary>
 	public ref class ImageWorkForm : public System::Windows::Forms::Form {
-	public:
+	
+	public: ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork);
 
-		ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork);
-
-	protected:
-		/// <summary>
-		/// ќсвободить все используемые ресурсы.
-		/// </summary>
-
-		~ImageWorkForm();
+	protected: ~ImageWorkForm();
 
 	private:
 		Upload::ImageUploadForm^ _imageUploadForm = nullptr;
@@ -57,46 +48,32 @@ namespace Work {
 	private: System::Windows::Forms::Label^			 capabilitPictureBoxLabel;
 	private: System::Windows::Forms::PictureBox^     pictureBox;
 	
-	private:
-		/// <summary>
-		/// ќб€зательна€ переменна€ конструктора.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// “ребуемый метод дл€ поддержки конструктора Ч не измен€йте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
-		void InitializeComponent(void);
+
+	private: void InitializeComponent(void);
 
 #pragma endregion
-	private: 
-	System::Void sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void changeMaxMinPositionValue(System::Void);
 
-	System::Void sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
 
-	System::Void transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
 
-	System::Void transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
 
-	System::Void xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void backButton_Click(System::Object^  sender, System::EventArgs^  e);
 
-	System::Void xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
-
-	System::Void yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
-
-	System::Void yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
-
-	System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
-
-	System::Void backButton_Click(System::Object^  sender, System::EventArgs^  e);
-
-	System::Void pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+	private: System::Void pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 	
-	System::Void ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
-			 
-	System::Void changeMaxMinPositionValue(System::Void);
+	private: System::Void ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 	};
 
 }
