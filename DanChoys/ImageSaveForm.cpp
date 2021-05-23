@@ -123,13 +123,13 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 
 }
 
-System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Save::ImageSaveForm::searchPathSaveImageButton_Click(System::Object^ , System::EventArgs^ ) {
 	saveFileDialog->Filter = "No format |*.*|PNG (.png)|*.png|BMP (.bmp)|*.bmp|GIF (.gif)|*.gif|Jpg (.jpg)|*.jpg|Jpeg (.jpeg)|*.jpeg";
 	saveFileDialog->ShowDialog();
 	saveImagePathTextBox->Text = saveFileDialog->FileName;
 }
 
-System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Save::ImageSaveForm::saveButton_Click(System::Object^ , System::EventArgs^ ) {
 	const int numberUploadedImages = 2;
 
 	String^ mainImagePath = _imageWork->getMainImagePath();
@@ -163,23 +163,23 @@ System::Void Save::ImageSaveForm::saveButton_Click(System::Object^  sender, Syst
 			Application::Exit();
 		}
 
-	} catch (Runtime::InteropServices::ExternalException^ exception) {
+	} catch (Runtime::InteropServices::ExternalException^ ) {
 
 		MessageBox::Show("Не удалось сохранить файл по указанному пути.", "Ошибка!");
 
-	} catch (ArgumentException^ exception) {
+	} catch (ArgumentException^ ) {
 
 		MessageBox::Show("Вы не указали путь к файлу.", "Ошибка!");
 
 	}
 }
 
-System::Void Save::ImageSaveForm::backButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Save::ImageSaveForm::backButton_Click(System::Object^ , System::EventArgs^ ) {
 	_imageWorkForm->Location = this->Location;
 	_imageWorkForm->Show();
 	this->Hide();
 }
 
-System::Void Save::ImageSaveForm::ImageSaveForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
+System::Void Save::ImageSaveForm::ImageSaveForm_FormClosed(System::Object^ , System::Windows::Forms::FormClosedEventArgs^ ) {
 	Application::Exit();
 }

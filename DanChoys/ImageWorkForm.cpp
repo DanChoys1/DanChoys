@@ -2,8 +2,6 @@
 #include "ImageSaveForm.h"
 #include "EnlargedConvertedImage.h"
 
-using namespace System::Drawing;
-
 Work::ImageWorkForm::ImageWorkForm(Upload::ImageUploadForm^ imageUploadForm, ImageWork^ imageWork) :
 	_imageUploadForm(imageUploadForm), _imageWork(imageWork) {
 
@@ -324,7 +322,7 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 
 }
 
-System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
 	if (sizeTrackBar->Focused) {
 		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
@@ -335,7 +333,7 @@ System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^  sender, S
 	}
 }
 
-System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
 	if (sizeNumericUpDown->Focused) {
 		sizeTrackBar->Value = static_cast<int>(sizeNumericUpDown->Value);
 		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
@@ -381,7 +379,7 @@ System::Void Work::ImageWorkForm::changeMaxMinPositionValue(System::Void) {
 	_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 }
 
-System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
 	if (transparencyTrackBar->Focused) {
 		const double maxAlpha = 255.0;
 		const int maxPercent = 100;
@@ -394,7 +392,7 @@ System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^  s
 	}
 }
 
-System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
 	if (transparencyNumericUpDown->Focused) {
 		const int maxAlpha = 255;
 		const int maxPercent = 100;
@@ -407,7 +405,7 @@ System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System:
 	}
 }
 
-System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
 	if (xTrackBar->Focused) {
 		const int maxPercent = 100;
 
@@ -418,7 +416,7 @@ System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^  sender, Syst
 	}
 }
 
-System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
 	if (xNumericUpDown->Focused) {
 		const int maxPercent = 100;
 
@@ -429,7 +427,7 @@ System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^  s
 	}
 }
 
-System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
 	if (yTrackBar->Focused) {
 		const double maxPercent = 100;
 
@@ -440,7 +438,7 @@ System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^  sender, Syst
 	}
 }
 
-System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
 	if (yNumericUpDown->Focused) {
 		const int maxPercent = 100;
 
@@ -451,7 +449,7 @@ System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^  s
 	}
 }
 
-System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::nextButton_Click(System::Object^ , System::EventArgs^ ) {
 	Save::ImageSaveForm^ imageSaveForm = gcnew Save::ImageSaveForm(this, _imageWork);
 
 	imageSaveForm->Location = this->Location;
@@ -459,17 +457,17 @@ System::Void Work::ImageWorkForm::nextButton_Click(System::Object^  sender, Syst
 	this->Hide();
 }
 
-System::Void Work::ImageWorkForm::backButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Work::ImageWorkForm::backButton_Click(System::Object^ , System::EventArgs^ ) {
 	_imageUploadForm->Location = this->Location;
 	_imageUploadForm->Show();
 	this->Hide();
 }
 
-System::Void Work::ImageWorkForm::pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+System::Void Work::ImageWorkForm::pictureBox_MouseDoubleClick(System::Object^ , System::Windows::Forms::MouseEventArgs^ ) {
 	Enlarged::EnlargConvertedImage^ enlargConvertedImage = gcnew Enlarged::EnlargConvertedImage(pictureBox->Image);
 	enlargConvertedImage->Show();
 }
 
-System::Void  Work::ImageWorkForm::ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
+System::Void  Work::ImageWorkForm::ImageWorkForm_FormClosed(System::Object^ , System::Windows::Forms::FormClosedEventArgs^ ) {
 	Application::Exit();
 }

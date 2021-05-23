@@ -3,7 +3,7 @@
 using namespace System;
 using namespace System::Drawing;
 
-ref class ImageWork {
+public ref class ImageWork {
 	Bitmap^ _resultingImage = nullptr;
 	Bitmap^ _mainImage = nullptr;
 	String^ _mainImagePath = nullptr;

@@ -2,8 +2,6 @@
 #include "ImageWorkForm.h"
 #include "ImageWorkClass.h"
 
-using namespace System::Drawing;
-
 Upload::ImageUploadForm::ImageUploadForm(void) {
 	InitializeComponent();
 }
@@ -165,7 +163,7 @@ void Upload::ImageUploadForm::InitializeComponent(void) {
 
 }
 
-System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object^ , System::EventArgs^ ) {
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
 		mainImagePath->Text = openFileDialog->FileName;
@@ -173,27 +171,27 @@ System::Void Upload::ImageUploadForm::searchMainImageButton_Click(System::Object
 	}
 }
 
-System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Upload::ImageUploadForm::mainImagePath_TextChanged(System::Object^ , System::EventArgs^ ) {
 	try {
 
 		mainPictureBox->Image = Image::FromFile(mainImagePath->Text);
 
-	} catch (OutOfMemoryException^ exception) {
+	} catch (OutOfMemoryException^ ) {
 
 		mainPictureBox->Image = nullptr;
 
-	} catch (ArgumentException^ exception) {
+	} catch (ArgumentException^ ) {
 
 		mainPictureBox->Image = nullptr;
 
-	} catch (System::IO::FileNotFoundException^ exception) {
+	} catch (System::IO::FileNotFoundException^ ) {
 
 		mainPictureBox->Image = nullptr;
 
 	}
 }
 
-System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::Object^ , System::EventArgs^ ) {
 	if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 
 		watermarkImagePath->Text = openFileDialog->FileName;
@@ -201,27 +199,27 @@ System::Void Upload::ImageUploadForm::searchWatermarkImageButton_Click(System::O
 	}
 }
 
-System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+System::Void Upload::ImageUploadForm::watermarkImagePath_TextChanged(System::Object^ , System::EventArgs^ ) {
 	try {
 
 		watermarkPictureBox->Image = Image::FromFile(watermarkImagePath->Text);
 
-	} catch (OutOfMemoryException^ exception) {
+	} catch (OutOfMemoryException^ ) {
 
 		watermarkPictureBox->Image = nullptr;
 
-	} catch (ArgumentException^ exception) {
+	} catch (ArgumentException^ ) {
 
 		watermarkPictureBox->Image = nullptr;
 
-	} catch (System::IO::FileNotFoundException^ exception) {
+	} catch (System::IO::FileNotFoundException^ ) {
 
 		watermarkPictureBox->Image = nullptr;
 
 	}
 }
 
-System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Upload::ImageUploadForm::nextButton_Click(System::Object^ , System::EventArgs^ ) {
 
 	bool isExistMainImage = mainPictureBox->Image != nullptr;
 	bool isExistWatermark = watermarkPictureBox->Image != nullptr;

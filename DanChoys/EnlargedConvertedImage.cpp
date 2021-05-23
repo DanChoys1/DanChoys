@@ -47,6 +47,6 @@ void Enlarged::EnlargConvertedImage::InitializeComponent(void) {
 
 }
 
-System::Void Enlarged::EnlargConvertedImage::pictureBox_Click(System::Object^  sender, System::EventArgs^  e) {
+System::Void Enlarged::EnlargConvertedImage::pictureBox_Click(System::Object^ , System::EventArgs^ ) {
 	this->Hide();
 }

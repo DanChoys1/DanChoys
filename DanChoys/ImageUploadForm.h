@@ -3,10 +3,7 @@
 namespace Upload {
 
 	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
 	using namespace System::Windows::Forms;
-	using namespace System::Data;
 	using namespace System::Drawing;
 	
 	public ref class ImageUploadForm : public System::Windows::Forms::Form {
@@ -15,11 +12,11 @@ namespace Upload {
 
 	protected: ~ImageUploadForm();
 
-	private: System::Windows::Forms::Label^			 mainImagePathLabel;
-	private: System::Windows::Forms::TextBox^		 mainImagePath;
-	private: System::Windows::Forms::Button^		 searchMainImageButton;
-	private: System::Windows::Forms::Label^			 mainPictureBoxLabel;
-	private: System::Windows::Forms::PictureBox^	 mainPictureBox;
+	private: System::Windows::Forms::Label^			  mainImagePathLabel;
+	private: System::Windows::Forms::TextBox^		  mainImagePath;
+	private: System::Windows::Forms::Button^		  searchMainImageButton;
+	private: System::Windows::Forms::Label^			  mainPictureBoxLabel;
+	private: System::Windows::Forms::PictureBox^	  mainPictureBox;
 	
 	private: System::Windows::Forms::Label^			  watermarkImagePathLabel;
 	private: System::Windows::Forms::TextBox^		  watermarkImagePath;
@@ -31,7 +28,7 @@ namespace Upload {
 
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog;
 
-	private: System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container^		  components;
 
 #pragma region Windows Form Designer generated code
 
