@@ -52,25 +52,25 @@ namespace Work {
 	private: void InitializeComponent(void);
 
 #pragma endregion
-	private: System::Void sizeTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void sizeNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void sizeTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void sizeNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 	private: System::Void changeMaxMinPositionValue(System::Void);
 
-	private: System::Void transparencyTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void transparencyNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void transparencyTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void transparencyNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void xTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void xNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void xTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void xNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void yTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void yNumericUpDown_ValueChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void yTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void yNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void backButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void nextButton_Click(System::Object^ , System::EventArgs^ );
+	private: System::Void backButton_Click(System::Object^ , System::EventArgs^ );
 
-	private: System::Void pictureBox_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+	private: System::Void pictureBox_MouseDoubleClick(System::Object^ , System::Windows::Forms::MouseEventArgs^ );
 	
-	private: System::Void ImageWorkForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
+	private: System::Void ImageWorkForm_FormClosed(System::Object^ , System::Windows::Forms::FormClosedEventArgs^ );
 	};
 
 }

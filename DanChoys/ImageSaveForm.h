@@ -38,13 +38,13 @@ namespace Save {
 
 #pragma endregion
 		
-	private: System::Void searchPathSaveImageButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void searchPathSaveImageButton_Click(System::Object^ , System::EventArgs^ );
 
-	private: System::Void saveButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void saveButton_Click(System::Object^ , System::EventArgs^ );
 
-	private: System::Void backButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void backButton_Click(System::Object^ , System::EventArgs^ );
 
-	private: System::Void ImageSaveForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e);
+	private: System::Void ImageSaveForm_FormClosed(System::Object^ , System::Windows::Forms::FormClosedEventArgs^ );
 	};
 
 }

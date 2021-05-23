@@ -35,13 +35,13 @@ namespace Upload {
 	private: void InitializeComponent(void);
 
 #pragma endregion
-	private: System::Void searchMainImageButton_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void searchWatermarkImageButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void searchMainImageButton_Click(System::Object^ , System::EventArgs^ );
+	private: System::Void searchWatermarkImageButton_Click(System::Object^ , System::EventArgs^ );
 
-	private: System::Void mainImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void watermarkImagePath_TextChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void mainImagePath_TextChanged(System::Object^ , System::EventArgs^ );
+	private: System::Void watermarkImagePath_TextChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void nextButton_Click(System::Object^ , System::EventArgs^ );
 	};
 
 }
