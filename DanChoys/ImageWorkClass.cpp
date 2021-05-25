@@ -90,7 +90,6 @@ void ImageWork::changeSizeWatermark(int newSize) {
 	double imageRatio = _mainImage->Width / static_cast<double>(_watermark->Width);
 
 	if ((_watermark->Height * imageRatio) < _mainImage->Height) {
-
 		_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * 0.01));
 		_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * 0.01));
 
@@ -101,7 +100,6 @@ void ImageWork::changeSizeWatermark(int newSize) {
 		}
 
 	} else {
-
 		imageRatio = _mainImage->Height / static_cast<double>(_watermark->Height);
 		_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * 0.01));
 		_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * 0.01));
