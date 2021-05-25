@@ -88,26 +88,27 @@ void ImageWork::changeTransparencyWatermark(int transparency) {
 
 void ImageWork::changeSizeWatermark(int newSize) {
 	double imageRatio = _mainImage->Width / static_cast<double>(_watermark->Width);
+	const double percentageRatio = 0.01;
 
 	if ((_watermark->Height * imageRatio) < _mainImage->Height) {
-		_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * 0.01));
-		_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * 0.01));
+		_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * percentageRatio));
+		_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * percentageRatio));
 
 		while ((_newWidthWatermark == 0) || (_newHeightWatermark == 0)) {
 			newSize++;
-			_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * 0.01));
-			_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * 0.01));
+			_newWidthWatermark = static_cast<int>(_mainImage->Width * (newSize * percentageRatio));
+			_newHeightWatermark = static_cast<int>((_watermark->Height * imageRatio) * (newSize * percentageRatio));
 		}
 
 	} else {
 		imageRatio = _mainImage->Height / static_cast<double>(_watermark->Height);
-		_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * 0.01));
-		_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * 0.01));
+		_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * percentageRatio));
+		_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * percentageRatio));
 		
 		while ((_newWidthWatermark == 0) || (_newHeightWatermark == 0)) {
 			newSize++;
-			_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * 0.01));
-			_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * 0.01));
+			_newHeightWatermark = static_cast<int>(_mainImage->Height * (newSize * percentageRatio));
+			_newWidthWatermark = static_cast<int>((_watermark->Width * imageRatio) * (newSize * percentageRatio));
 		}
 
 	}
