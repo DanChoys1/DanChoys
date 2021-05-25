@@ -115,10 +115,6 @@ void ImageWork::changeSizeWatermark(int newSize) {
 	changePositionWatermark(_x, _y);
 }
 
-Bitmap^ ImageWork::getMainImage(void) {
-	return _mainImage;
-}
-
 String^ ImageWork::getMainImagePath(void) {
 	return _mainImagePath;
 }
@@ -149,12 +145,4 @@ int ImageWork::getWidthWatermark(void) {
 	
 Bitmap^ ImageWork::getResultingImage(void) {
 	return _resultingImage;
-}
-
-int ImageWork::getHeightResultingImage(void) {
-	return _resultingImage->Height;
-}
-
-int ImageWork::getWidthResultingImage(void) {
-	return _resultingImage->Width;
 }

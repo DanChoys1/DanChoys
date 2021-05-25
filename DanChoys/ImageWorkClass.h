@@ -25,8 +25,6 @@ public:
 
 	void changeSizeWatermark(int newSize);
 
-	Bitmap^ getMainImage(void);
-
 	String^ getMainImagePath(void);
 
 	int getHeightMainImage(void);
@@ -42,8 +40,4 @@ public:
 	int getWidthWatermark(void);
 	
 	Bitmap^ getResultingImage(void);
-
-	int getHeightResultingImage(void);
-
-	int getWidthResultingImage(void);
 };
