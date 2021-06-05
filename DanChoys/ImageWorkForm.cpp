@@ -119,7 +119,8 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->transparencyTrackBar->Size = System::Drawing::Size(254, 45);
 	this->transparencyTrackBar->TabIndex = 23;
 	this->transparencyTrackBar->Value = -255;
-	this->transparencyTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::transparencyTrackBar_Scroll);
+	this->transparencyTrackBar->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &ImageWorkForm::transparencyTrackBar_KeyUp);
+	this->transparencyTrackBar->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ImageWorkForm::transparencyTrackBar_MouseUp);
 	// 
 	// sizeTrackBar
 	// 
@@ -130,7 +131,8 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->sizeTrackBar->Size = System::Drawing::Size(254, 45);
 	this->sizeTrackBar->TabIndex = 22;
 	this->sizeTrackBar->Value = 1;
-	this->sizeTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::sizeTrackBar_Scroll);
+	this->sizeTrackBar->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &ImageWorkForm::sizeTrackBar_KeyUp);
+	this->sizeTrackBar->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ImageWorkForm::sizeTrackBar_MouseUp);
 	// 
 	// backButton
 	// 
@@ -215,7 +217,8 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->yTrackBar->Name = L"yTrackBar";
 	this->yTrackBar->Size = System::Drawing::Size(242, 45);
 	this->yTrackBar->TabIndex = 13;
-	this->yTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::yTrackBar_Scroll);
+	this->yTrackBar->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &ImageWorkForm::yTrackBar_KeyUp);
+	this->yTrackBar->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ImageWorkForm::yTrackBar_MouseUp);
 	// 
 	// xNumericUpDown
 	// 
@@ -232,7 +235,8 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->xTrackBar->Name = L"xTrackBar";
 	this->xTrackBar->Size = System::Drawing::Size(242, 45);
 	this->xTrackBar->TabIndex = 12;
-	this->xTrackBar->Scroll += gcnew System::EventHandler(this, &ImageWorkForm::xTrackBar_Scroll);
+	this->xTrackBar->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &ImageWorkForm::xTrackBar_KeyUp);
+	this->xTrackBar->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ImageWorkForm::xTrackBar_MouseUp);
 	// 
 	// yHeading
 	// 
@@ -322,15 +326,21 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 
 }
 
-System::Void Work::ImageWorkForm::sizeTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
-	if (sizeTrackBar->Focused) {
-		sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
-		_imageWork->changeSizeWatermark(sizeTrackBar->Value);
+System::Void Work::ImageWorkForm::sizeTrackBarAlgorithm(void) {
+	sizeNumericUpDown->Value = static_cast<Decimal>(sizeTrackBar->Value);
+	_imageWork->changeSizeWatermark(sizeTrackBar->Value);
 
-		changeMaxMinPositionValue();
+	changeMaxMinPositionValue();
 
-		pictureBox->Image = _imageWork->getResultingImage();
-	}
+	pictureBox->Image = _imageWork->getResultingImage();
+}
+
+System::Void Work::ImageWorkForm::sizeTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ ) {
+	sizeTrackBarAlgorithm();
+}
+
+System::Void Work::ImageWorkForm::sizeTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ ) {
+	sizeTrackBarAlgorithm();
 }
 
 System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
@@ -379,17 +389,23 @@ System::Void Work::ImageWorkForm::changeMaxMinPositionValue(System::Void) {
 	_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 }
 
-System::Void Work::ImageWorkForm::transparencyTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
-	if (transparencyTrackBar->Focused) {
-		const double maxAlpha = 255.0;
-		const int maxPercent = 100;
-		const double percentageTransparency = maxPercent + (transparencyTrackBar->Value / maxAlpha) * maxPercent;
+System::Void Work::ImageWorkForm::transparencyTrackBarAlgorithm(void) {
+	const double maxAlpha = 255.0;
+	const int maxPercent = 100;
+	const double percentageTransparency = maxPercent + (transparencyTrackBar->Value / maxAlpha) * maxPercent;
 
-		transparencyNumericUpDown->Value = static_cast<Decimal>(percentageTransparency);
+	transparencyNumericUpDown->Value = static_cast<Decimal>(percentageTransparency);
 
-		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
-		pictureBox->Image = _imageWork->getResultingImage();
-	}
+	_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
+	pictureBox->Image = _imageWork->getResultingImage();
+}
+
+System::Void Work::ImageWorkForm::transparencyTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ ) {
+	transparencyTrackBarAlgorithm();
+}
+
+System::Void Work::ImageWorkForm::transparencyTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ ) {
+	transparencyTrackBarAlgorithm();
 }
 
 System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
@@ -405,8 +421,8 @@ System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System:
 	}
 }
 
-System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
-	if (xTrackBar->Focused) {
+System::Void Work::ImageWorkForm::xTrackBarAlgorithm(void) {
+	if (xTrackBar->Maximum != 0) {
 		const int maxPercent = 100;
 
 		xNumericUpDown->Value = static_cast<Decimal>((xTrackBar->Value / static_cast<double>(xTrackBar->Maximum)) * maxPercent);
@@ -414,6 +430,14 @@ System::Void Work::ImageWorkForm::xTrackBar_Scroll(System::Object^ , System::Eve
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
 	}
+}
+
+System::Void Work::ImageWorkForm::xTrackBar_KeyUp(System::Object^, System::Windows::Forms::KeyEventArgs^) {
+	xTrackBarAlgorithm();
+}
+
+System::Void Work::ImageWorkForm::xTrackBar_MouseUp(System::Object^, System::Windows::Forms::MouseEventArgs^) {
+	xTrackBarAlgorithm();
 }
 
 System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {
@@ -427,8 +451,8 @@ System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^ , 
 	}
 }
 
-System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^ , System::EventArgs^ ) {
-	if (yTrackBar->Focused) {
+System::Void Work::ImageWorkForm::yTrackBarAlgorithm(void) {
+	if (yTrackBar->Maximum != 0) {
 		const double maxPercent = 100;
 
 		yNumericUpDown->Value = static_cast<Decimal>((yTrackBar->Value / static_cast<double>(yTrackBar->Maximum)) * maxPercent);
@@ -436,6 +460,14 @@ System::Void Work::ImageWorkForm::yTrackBar_Scroll(System::Object^ , System::Eve
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
 	}
+}
+
+System::Void Work::ImageWorkForm::yTrackBar_KeyUp(System::Object^, System::Windows::Forms::KeyEventArgs^) {
+	yTrackBarAlgorithm();
+}
+
+System::Void Work::ImageWorkForm::yTrackBar_MouseUp(System::Object^, System::Windows::Forms::MouseEventArgs^) {
+	yTrackBarAlgorithm();
 }
 
 System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ ) {

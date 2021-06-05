@@ -52,17 +52,25 @@ namespace Work {
 	private: void InitializeComponent(void);
 
 #pragma endregion
-	private: System::Void sizeTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void sizeTrackBarAlgorithm(void);
+	private: System::Void sizeTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ );
+	private: System::Void sizeTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ );
 	private: System::Void sizeNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 	private: System::Void changeMaxMinPositionValue(System::Void);
 
-	private: System::Void transparencyTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void transparencyTrackBarAlgorithm(void);
+	private: System::Void transparencyTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ );
+	private: System::Void transparencyTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ );
 	private: System::Void transparencyNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void xTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void xTrackBarAlgorithm(void);
+	private: System::Void xTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ );
+	private: System::Void xTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ );
 	private: System::Void xNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
-	private: System::Void yTrackBar_Scroll(System::Object^ , System::EventArgs^ );
+	private: System::Void yTrackBarAlgorithm(void);
+	private: System::Void yTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ );
+	private: System::Void yTrackBar_MouseUp(System::Object^ , System::Windows::Forms::MouseEventArgs^ );
 	private: System::Void yNumericUpDown_ValueChanged(System::Object^ , System::EventArgs^ );
 
 	private: System::Void nextButton_Click(System::Object^ , System::EventArgs^ );
