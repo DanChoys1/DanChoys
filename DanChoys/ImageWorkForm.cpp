@@ -333,6 +333,8 @@ System::Void Work::ImageWorkForm::sizeTrackBarAlgorithm(void) {
 	changeMaxMinPositionValue();
 
 	pictureBox->Image = _imageWork->getResultingImage();
+
+	GC::Collect();
 }
 
 System::Void Work::ImageWorkForm::sizeTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ ) {
@@ -351,6 +353,8 @@ System::Void Work::ImageWorkForm::sizeNumericUpDown_ValueChanged(System::Object^
 		changeMaxMinPositionValue();
 
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
@@ -398,6 +402,8 @@ System::Void Work::ImageWorkForm::transparencyTrackBarAlgorithm(void) {
 
 	_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 	pictureBox->Image = _imageWork->getResultingImage();
+
+	GC::Collect();
 }
 
 System::Void Work::ImageWorkForm::transparencyTrackBar_KeyUp(System::Object^ , System::Windows::Forms::KeyEventArgs^ ) {
@@ -418,6 +424,8 @@ System::Void Work::ImageWorkForm::transparencyNumericUpDown_ValueChanged(System:
 
 		_imageWork->changeTransparencyWatermark(transparencyTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
@@ -429,6 +437,8 @@ System::Void Work::ImageWorkForm::xTrackBarAlgorithm(void) {
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
@@ -448,6 +458,8 @@ System::Void Work::ImageWorkForm::xNumericUpDown_ValueChanged(System::Object^ , 
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
@@ -459,6 +471,8 @@ System::Void Work::ImageWorkForm::yTrackBarAlgorithm(void) {
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
@@ -478,6 +492,8 @@ System::Void Work::ImageWorkForm::yNumericUpDown_ValueChanged(System::Object^ , 
 
 		_imageWork->changePositionWatermark(xTrackBar->Value, yTrackBar->Value);
 		pictureBox->Image = _imageWork->getResultingImage();
+
+		GC::Collect();
 	}
 }
 
