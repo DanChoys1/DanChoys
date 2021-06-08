@@ -161,12 +161,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageSaveForm.resx">
       <DependentUpon>ImageSaveForm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Save.ImageSaveForm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Save.ImageSaveForm.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageUploadForm.resx">
       <DependentUpon>ImageUploadForm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Upload.ImageUploadForm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Upload.ImageUploadForm.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageWorkForm.resx">
       <DependentUpon>ImageWorkForm.h</DependentUpon>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Work.ImageWorkForm.resources</LogicalName>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Work.ImageWorkForm.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

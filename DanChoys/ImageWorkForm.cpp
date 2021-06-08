@@ -35,6 +35,7 @@ Work::ImageWorkForm::~ImageWorkForm() {
 }
 
 void Work::ImageWorkForm::InitializeComponent(void) {
+	System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ImageWorkForm::typeid));
 	this->transparencyPercentSignLabel = (gcnew System::Windows::Forms::Label());
 	this->transparencyNumericUpDown = (gcnew System::Windows::Forms::NumericUpDown());
 	this->sizePercentSignLabel = (gcnew System::Windows::Forms::Label());
@@ -302,6 +303,7 @@ void Work::ImageWorkForm::InitializeComponent(void) {
 	this->Controls->Add(this->positionGroupBox);
 	this->Controls->Add(this->changeSizeHeading);
 	this->Controls->Add(this->pictureBox);
+	this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 	this->MaximizeBox = false;
 	this->MaximumSize = System::Drawing::Size(700, 450);
 	this->MinimizeBox = false;

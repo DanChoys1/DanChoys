@@ -17,6 +17,7 @@ Save::ImageSaveForm::~ImageSaveForm() {
 }
 
 void Save::ImageSaveForm::InitializeComponent(void) {
+	System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ImageSaveForm::typeid));
 	this->pictureBoxLabel = (gcnew System::Windows::Forms::Label());
 	this->newImageSavePathLabel = (gcnew System::Windows::Forms::Label());
 	this->backButton = (gcnew System::Windows::Forms::Button());
@@ -109,6 +110,7 @@ void Save::ImageSaveForm::InitializeComponent(void) {
 	this->Controls->Add(this->pictureBox);
 	this->Controls->Add(this->searchPathSaveImageButton);
 	this->Controls->Add(this->saveImagePathTextBox);
+	this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 	this->MaximizeBox = false;
 	this->MaximumSize = System::Drawing::Size(700, 450);
 	this->MinimizeBox = false;

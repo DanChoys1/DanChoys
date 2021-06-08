@@ -13,6 +13,7 @@ Upload::ImageUploadForm::~ImageUploadForm() {
 }
 
 void Upload::ImageUploadForm::InitializeComponent(void) {
+	System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ImageUploadForm::typeid));
 	this->watermarkImagePathLabel = (gcnew System::Windows::Forms::Label());
 	this->mainImagePathLabel = (gcnew System::Windows::Forms::Label());
 	this->watermarkPictureBoxLabel = (gcnew System::Windows::Forms::Label());
@@ -133,7 +134,7 @@ void Upload::ImageUploadForm::InitializeComponent(void) {
 	// 
 	this->openFileDialog->FileName = L"openFileDialog";
 	// 
-	// ImageUpload
+	// ImageUploadForm
 	// 
 	this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 	this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -149,11 +150,12 @@ void Upload::ImageUploadForm::InitializeComponent(void) {
 	this->Controls->Add(this->searchMainImageButton);
 	this->Controls->Add(this->nextButton);
 	this->Controls->Add(this->mainImagePath);
+	this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 	this->MaximizeBox = false;
 	this->MaximumSize = System::Drawing::Size(700, 450);
 	this->MinimizeBox = false;
 	this->MinimumSize = System::Drawing::Size(700, 450);
-	this->Name = L"ImageUpload";
+	this->Name = L"ImageUploadForm";
 	this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 	this->Text = L"DanChoys";
 	(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->watermarkPictureBox))->EndInit();
